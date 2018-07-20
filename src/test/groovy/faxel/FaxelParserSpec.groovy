@@ -24,7 +24,7 @@ class FaxelParserSpec extends Specification {
 
     def "Should parse given excel to java object"() {
         given: "Default parser"
-          def parser = FaxelFactory.create("/SimplePersonData.xlsx")
+          def parser = FaxelFactory.create("/person-data.xlsx")
         when: "Parser parse SimplePersonData"
           def result = parser.parseTo(PersonDataExcel.class)
         then: "The result is PersonDataExcel instance"
