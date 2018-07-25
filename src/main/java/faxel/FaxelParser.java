@@ -1,5 +1,7 @@
 package faxel;
 
-public interface FaxelParser {
-    <T> T parseTo(Class<T> clazz);
+import org.apache.poi.ss.usermodel.Workbook;
+
+public interface FaxelParser<D> {
+    D parseFrom(Workbook workbook);
 }

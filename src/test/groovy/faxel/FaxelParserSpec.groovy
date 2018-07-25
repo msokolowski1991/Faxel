@@ -2,15 +2,16 @@ package faxel
 
 import faxel.annotation.Column
 import faxel.annotation.Sheet
+import org.apache.poi.ss.usermodel.WorkbookFactory
 import spock.lang.Specification
 
 class FaxelParserSpec extends Specification {
 
     static class PersonDataExcel {
-        @Sheet(name = "Person", firstDataRow = 1)
+        @Sheet(name = "Person")
         private Collection<Person> people;
 
-        @Sheet(name = "Address", firstDataRow = 1)
+        @Sheet(name = "Address")
         private Collection<Address> addresses;
     }
 
@@ -41,9 +42,10 @@ class FaxelParserSpec extends Specification {
 
     def "Should parse given excel to java object"() {
         given: "Default parser"
-          def parser = FaxelFactory.create("/person-data.xlsx")
+          def excelStream = getClass().getResourceAsStream("/person-data.xlsx")
+          def parser = FaxelFactory.create(PersonDataExcel.class)
         when: "Parser parse SimplePersonData"
-          def result = parser.parseTo(PersonDataExcel.class)
+          def result = parser.parseFrom(WorkbookFactory.create(excelStream))
         then: "The result is PersonDataExcel instance"
           result instanceof PersonDataExcel
     }

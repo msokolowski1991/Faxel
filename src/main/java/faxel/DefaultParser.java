@@ -1,11 +1,27 @@
 package faxel;
 
-class DefaultParser implements FaxelParser {
-    DefaultParser(String filePath) {
+import org.apache.poi.ss.usermodel.Workbook;
+
+import faxel.definition.ModelDefinition;
+import faxel.definition.ModelDefinitionFactory;
+
+class DefaultParser<D> implements FaxelParser<D> {
+    private final Class<D> clazz;
+
+    DefaultParser(Class<D> clazz) {
+        this.clazz = clazz;
+    }
+
+    @Override
+    public D parseFrom(Workbook workbook) {
+
+        final ModelDefinition<D> definition = ModelDefinitionFactory.get().create(clazz);
+
+        return definition.fillFrom(workbook);
+    }
+
+    private class ColumnParser {
 
     }
 
-    public <T> T parseTo(Class<T> clazz) {
-        return ClassInitializer.createSilently(clazz);
-    }
 }

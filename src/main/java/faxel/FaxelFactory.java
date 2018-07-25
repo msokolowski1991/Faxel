@@ -1,7 +1,7 @@
 package faxel;
 
 public class FaxelFactory {
-    static FaxelParser create(String filePath) {
-        return new DefaultParser(filePath);
+    static <D> FaxelParser create(Class<D> dClass) {
+        return new DefaultParser<>(dClass);
     }
 }
