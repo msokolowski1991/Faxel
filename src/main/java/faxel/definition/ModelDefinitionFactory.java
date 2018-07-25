@@ -8,12 +8,18 @@ import java.util.stream.Collectors;
 import faxel.annotation.Column;
 import faxel.annotation.Sheet;
 
+/**
+ * ModelDefinition objects Factory
+ */
 public class ModelDefinitionFactory {
 
     public static ModelDefinitionFactory get() {
         return new ModelDefinitionFactory();
     }
 
+    /**
+     * Creates ModelDefinition from Class object.
+     */
     public <T> ModelDefinition<T> create(Class<T> clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("Class argument can not be null");
