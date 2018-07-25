@@ -20,8 +20,4 @@ class DefaultParser<D> implements FaxelParser<D> {
         return definition.fill(workbook, ClassInitializer.createSilently(clazz));
     }
 
-    private class ColumnParser {
-
-    }
-
 }
