@@ -1,4 +1,4 @@
-package faxel.definition;
+package faxel;
 
 import static java.lang.String.format;
 

@@ -17,7 +17,7 @@ class DefaultParser<D> implements FaxelParser<D> {
 
         final ModelDefinition<D> definition = ModelDefinitionFactory.get().create(clazz);
 
-        return definition.fill(workbook);
+        return definition.fill(workbook, ClassInitializer.createSilently(clazz));
     }
 
     private class ColumnParser {
