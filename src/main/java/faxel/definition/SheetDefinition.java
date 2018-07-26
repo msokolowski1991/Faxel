@@ -6,13 +6,15 @@ import java.util.Collection;
 import faxel.annotation.Sheet;
 
 final class SheetDefinition {
-    private final faxel.annotation.Sheet sheet;
-    private final Field containingField;
+    private final Sheet sheet;
+    private final Field field;
+    private final Class<?> rowType;
     private final Collection<ColumnDefinition> columnDefinitions;
 
-    SheetDefinition(Sheet sheet, Field containingField, Collection<ColumnDefinition> columnDefinitions) {
+    SheetDefinition(Sheet sheet, Field field, Class<?> rowType, Collection<ColumnDefinition> columnDefinitions) {
         this.sheet = sheet;
-        this.containingField = containingField;
+        this.field = field;
+        this.rowType = rowType;
         this.columnDefinitions = columnDefinitions;
     }
 }

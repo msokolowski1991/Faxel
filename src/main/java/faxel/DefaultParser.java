@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import faxel.definition.ModelDefinition;
 import faxel.definition.ModelDefinitionFactory;
+import faxel.initializer.ClassInitializer;
 
 class DefaultParser<D> implements FaxelParser<D> {
     private final Class<D> clazz;

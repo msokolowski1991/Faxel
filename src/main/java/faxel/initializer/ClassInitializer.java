@@ -1,14 +1,14 @@
-package faxel;
+package faxel.initializer;
 
 import static java.lang.String.format;
 
-final class ClassInitializer {
+public final class ClassInitializer {
 
     private ClassInitializer() {
         throw new RuntimeException("You should not create instance of this class");
     }
 
-    static <T> T createSilently(Class<T> clazz) {
+    public static <T> T createSilently(Class<T> clazz) {
         try {
             return clazz.newInstance();
         } catch (Throwable cause) {

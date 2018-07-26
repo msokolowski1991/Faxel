@@ -37,13 +37,13 @@ public class ModelDefinitionFactory {
         if (sheetAnnotation != null) {
             final Class<?> fieldType = sheetField.getType();
             if (fieldType.isAssignableFrom(Collection.class)) {
-                final Class<?> collectionType = (Class<?>) ((ParameterizedType) sheetField.getGenericType()).getActualTypeArguments()[0];
-                final List<ColumnDefinition> columnDefinitions = Arrays.stream(collectionType.getDeclaredFields())
+                final Class<?> rowType = (Class<?>) ((ParameterizedType) sheetField.getGenericType()).getActualTypeArguments()[0];
+                final List<ColumnDefinition> columnDefinitions = Arrays.stream(rowType.getDeclaredFields())
                         .peek(columnField -> columnField.setAccessible(true))
                         .map(this::tryToCreateColumnDefinition)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList());
-                return new SheetDefinition(sheetAnnotation, sheetField, columnDefinitions);
+                return new SheetDefinition(sheetAnnotation, sheetField, rowType, columnDefinitions);
             } else {
                 throw new IllegalArgumentException("Sheet annotation should be placed on Collection");
             }
