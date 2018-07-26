@@ -2,16 +2,23 @@ package faxel.definition;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import faxel.annotation.Column;
-import faxel.annotation.Sheet;
+import faxel.annotation.SheetRows;
 
 /**
  * ModelDefinition objects Factory
  */
 public class ModelDefinitionFactory {
+    private static Logger LOG = LoggerFactory.getLogger(ModelDefinitionFactory.class);
 
     public static ModelDefinitionFactory get() {
         return new ModelDefinitionFactory();
@@ -33,8 +40,8 @@ public class ModelDefinitionFactory {
     }
 
     private SheetDefinition tryToCreateSheetDefinition(Field sheetField) {
-        final Sheet sheetAnnotation = sheetField.getAnnotation(Sheet.class);
-        if (sheetAnnotation != null) {
+        if (sheetField.isAnnotationPresent(SheetRows.class)) {
+            final SheetRows sheetRowsAnnotation = sheetField.getAnnotation(SheetRows.class);
             final Class<?> fieldType = sheetField.getType();
             if (fieldType.isAssignableFrom(Collection.class)) {
                 final Class<?> rowType = (Class<?>) ((ParameterizedType) sheetField.getGenericType()).getActualTypeArguments()[0];
@@ -43,19 +50,22 @@ public class ModelDefinitionFactory {
                         .map(this::tryToCreateColumnDefinition)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList());
-                return new SheetDefinition(sheetAnnotation, sheetField, rowType, columnDefinitions);
+                return new SheetDefinition(sheetRowsAnnotation, sheetField, rowType, columnDefinitions);
             } else {
-                throw new IllegalArgumentException("Sheet annotation should be placed on Collection");
+                throw new IllegalArgumentException("SheetRows annotation should be placed on Collection");
             }
+        } else {
+            LOG.trace("Field {} is not recognized as sheet field. Skipping", sheetField);
+            return null;
         }
-        return null;
     }
 
     private ColumnDefinition tryToCreateColumnDefinition(Field columnField) {
-        final Column columnAnnotation = columnField.getAnnotation(Column.class);
-        if (columnAnnotation != null) {
+        if (columnField.isAnnotationPresent(Column.class)) {
+            final Column columnAnnotation = columnField.getAnnotation(Column.class);
             return new ColumnDefinition(columnAnnotation, columnField);
         } else {
+            LOG.trace("Column {} is not recognized as column field. Skipping", columnField);
             return null;
         }
     }
