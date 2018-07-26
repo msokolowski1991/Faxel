@@ -10,7 +10,7 @@ class FaxelParserSpec extends Specification {
         given: "Default parser"
           def excelStream = getClass().getResourceAsStream("/person-data.xlsx")
           def parser = FaxelFactory.create(PersonDataExcel.class)
-        when: "Parser parse SimplePersonData"
+        when: "Parser parse source excel"
           def result = parser.parseFrom(WorkbookFactory.create(excelStream))
         then: "The result is PersonDataExcel instance"
           result instanceof PersonDataExcel
