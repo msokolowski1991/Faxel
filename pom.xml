@@ -12,6 +12,7 @@
         <poi.version>3.17</poi.version>
         <spock-core.version>1.1-groovy-2.4</spock-core.version>
         <groovy-all.version>2.4.15</groovy-all.version>
+        <slf4j-api.version>1.7.25</slf4j-api.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -28,6 +29,11 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
         </dependency>
 
 
