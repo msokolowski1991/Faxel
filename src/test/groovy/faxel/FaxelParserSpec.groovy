@@ -1,17 +1,17 @@
 package faxel
 
 import faxel.annotation.Column
-import faxel.annotation.Sheet
+import faxel.annotation.SheetRows
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import spock.lang.Specification
 
 class FaxelParserSpec extends Specification {
 
     static class PersonDataExcel {
-        @Sheet(name = "Person")
+        @SheetRows(sheetName = "Person")
         private Collection<Person> people;
 
-        @Sheet(name = "Address")
+        @SheetRows(sheetName = "Address")
         private Collection<Address> addresses;
     }
 
