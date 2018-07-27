@@ -63,9 +63,9 @@ public class ModelDefinitionFactory {
     private ColumnDefinition tryToCreateColumnDefinition(Field columnField) {
         if (columnField.isAnnotationPresent(Column.class)) {
             final Column columnAnnotation = columnField.getAnnotation(Column.class);
-            return new ColumnDefinition(columnAnnotation, columnField);
+            return ColumnDefinition.create(columnAnnotation, columnField);
         } else {
-            LOG.trace("Column {} is not recognized as column field. Skipping", columnField);
+            LOG.trace("Field {} is not recognized as column field. Skipping", columnField);
             return null;
         }
     }

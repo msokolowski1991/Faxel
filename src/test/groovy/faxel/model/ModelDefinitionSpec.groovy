@@ -1,6 +1,5 @@
 package faxel.model
 
-import faxel.model.ModelDefinitionFactory
 import faxel.test.data.person.PersonDataExcel
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import spock.lang.Specification
