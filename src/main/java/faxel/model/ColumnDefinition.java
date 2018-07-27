@@ -1,4 +1,4 @@
-package faxel.definition;
+package faxel.model;
 
 import java.lang.reflect.Field;
 

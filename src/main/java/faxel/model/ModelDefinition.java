@@ -1,4 +1,4 @@
-package faxel.definition;
+package faxel.model;
 
 import org.apache.poi.ss.usermodel.Workbook;
 

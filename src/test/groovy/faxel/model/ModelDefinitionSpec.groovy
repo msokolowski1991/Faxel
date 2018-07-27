@@ -1,17 +1,18 @@
-package faxel
+package faxel.model
 
+import faxel.model.ModelDefinitionFactory
 import faxel.test.data.person.PersonDataExcel
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import spock.lang.Specification
 
-class FaxelParserSpec extends Specification {
+class ModelDefinitionSpec extends Specification {
 
     def "Should parse given excel to java object"() {
-        given: "Default parser"
+        given: "Default model"
           def excelStream = getClass().getResourceAsStream("/person-data.xlsx")
-          def parser = FaxelFactory.create(PersonDataExcel.class)
+          def model = ModelDefinitionFactory.get().create(PersonDataExcel)
         when: "Parser parse source excel"
-          def result = parser.parseFrom(WorkbookFactory.create(excelStream))
+          def result = model.fill(WorkbookFactory.create(excelStream), new PersonDataExcel())
         then: "The result is PersonDataExcel instance"
           result instanceof PersonDataExcel
         when: "Result is PersonDataExcel"

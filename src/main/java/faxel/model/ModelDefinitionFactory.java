@@ -1,4 +1,4 @@
-package faxel.definition;
+package faxel.model;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -36,7 +36,7 @@ public class ModelDefinitionFactory {
                 .map(this::tryToCreateSheetDefinition)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-        return new ModelDefinitionImpl<>(sheetDefinitions);
+        return new DefaultModelDefinition<>(sheetDefinitions);
     }
 
     private SheetDefinition tryToCreateSheetDefinition(Field sheetField) {

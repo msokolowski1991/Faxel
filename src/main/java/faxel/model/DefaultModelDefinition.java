@@ -1,4 +1,4 @@
-package faxel.definition;
+package faxel.model;
 
 import java.util.Collection;
 
@@ -6,14 +6,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class ModelDefinitionImpl<DEST> implements ModelDefinition<DEST> {
-    private static Logger LOG = LoggerFactory.getLogger(ModelDefinitionImpl.class);
+final class DefaultModelDefinition<DEST> implements ModelDefinition<DEST> {
+    private static Logger LOG = LoggerFactory.getLogger(DefaultModelDefinition.class);
 
     private final Collection<SheetDefinition> sheetDefinitions;
 
-    ModelDefinitionImpl(Collection<SheetDefinition> sheetDefinitions) {
+    DefaultModelDefinition(Collection<SheetDefinition> sheetDefinitions) {
         this.sheetDefinitions = sheetDefinitions;
-        LOG.trace("Creating ModelDefinitionImpl with {} sheet definitions", sheetDefinitions.size());
+        LOG.trace("Creating DefaultModelDefinition with {} sheet definitions", sheetDefinitions.size());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package faxel.definition;
+package faxel.model;
 
 import static java.util.stream.StreamSupport.stream;
 
@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import faxel.annotation.SheetRows;
-import faxel.initializer.ClassInitializer;
 
 final class SheetDefinition {
     private static Logger LOG = LoggerFactory.getLogger(SheetDefinition.class);
