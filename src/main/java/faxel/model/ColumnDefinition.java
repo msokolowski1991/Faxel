@@ -1,6 +1,7 @@
 package faxel.model;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import faxel.annotation.Column;
+import faxel.converter.ColumnConverter;
 
 abstract class ColumnDefinition {
     private static Logger LOG = LoggerFactory.getLogger(ColumnDefinition.class);
@@ -19,13 +21,23 @@ abstract class ColumnDefinition {
         final Class<?> columnType = modelFieldDefinition.getType();
         if (columnType.isAssignableFrom(String.class)) {
             return new StringColumnDefinition(column, modelFieldDefinition);
-        } else if (Double.TYPE == columnType || columnType.isAssignableFrom(Double.class)) {
-            return new DoubleColumnDefinition(column, modelFieldDefinition);
         } else if (Integer.TYPE == columnType || columnType.isAssignableFrom(Integer.class)) {
             return new IntegerColumnDefinition(column, modelFieldDefinition);
+        } else if (Long.TYPE == columnType || columnType.isAssignableFrom(Long.class)) {
+            return new LongColumnDefinition(column, modelFieldDefinition);
+        } else if (Short.TYPE == columnType || columnType.isAssignableFrom(Short.class)) {
+            return new ShortColumnDefinition(column, modelFieldDefinition);
+        } else if (Double.TYPE == columnType || columnType.isAssignableFrom(Double.class)) {
+            return new DoubleColumnDefinition(column, modelFieldDefinition);
+        } else if (Float.TYPE == columnType || columnType.isAssignableFrom(Float.class)) {
+            return new FloatColumnDefinition(column, modelFieldDefinition);
+        } else if (Boolean.TYPE == columnType || columnType.isAssignableFrom(Boolean.class)) {
+            return new BooleanColumnDefinition(column, modelFieldDefinition);
+        } else if (columnType.isAssignableFrom(Date.class)) {
+            return new DateColumnDefinition(column, modelFieldDefinition);
         } else {
-            LOG.error("Unsupported type {}", columnType);
-            throw new UnsupportedOperationException("Unsupported Type");
+            final Class<? extends ColumnConverter> customConverterType = column.converter();
+            return new CustomColumnDefinition(column, modelFieldDefinition, ClassInitializer.createSilently(customConverterType));
         }
     }
 
@@ -41,6 +53,8 @@ abstract class ColumnDefinition {
     }
 
     protected abstract Object getValue(Cell cell);
+
+    // ---------------------------------------------------------------------------
 
     static final class StringColumnDefinition extends ColumnDefinition {
 
@@ -75,6 +89,81 @@ abstract class ColumnDefinition {
         @Override
         protected Object getValue(Cell cell) {
             return (int) cell.getNumericCellValue();
+        }
+    }
+
+    static final class FloatColumnDefinition extends ColumnDefinition {
+
+        FloatColumnDefinition(Column column, Field modelFieldDefinition) {
+            super(column, modelFieldDefinition);
+        }
+
+        @Override
+        protected Object getValue(Cell cell) {
+            return (float) cell.getNumericCellValue();
+        }
+    }
+
+    static final class LongColumnDefinition extends ColumnDefinition {
+
+        LongColumnDefinition(Column column, Field modelFieldDefinition) {
+            super(column, modelFieldDefinition);
+        }
+
+        @Override
+        protected Object getValue(Cell cell) {
+            return (long) cell.getNumericCellValue();
+        }
+    }
+
+    static final class ShortColumnDefinition extends ColumnDefinition {
+
+        ShortColumnDefinition(Column column, Field modelFieldDefinition) {
+            super(column, modelFieldDefinition);
+        }
+
+        @Override
+        protected Object getValue(Cell cell) {
+            return (short) cell.getNumericCellValue();
+        }
+    }
+
+    static final class BooleanColumnDefinition extends ColumnDefinition {
+
+        BooleanColumnDefinition(Column column, Field modelFieldDefinition) {
+            super(column, modelFieldDefinition);
+        }
+
+        @Override
+        protected Object getValue(Cell cell) {
+            return cell.getBooleanCellValue();
+        }
+    }
+
+    static final class DateColumnDefinition extends ColumnDefinition {
+
+        DateColumnDefinition(Column column, Field modelFieldDefinition) {
+            super(column, modelFieldDefinition);
+        }
+
+        @Override
+        protected Object getValue(Cell cell) {
+            return cell.getDateCellValue();
+        }
+    }
+
+    static final class CustomColumnDefinition extends ColumnDefinition {
+
+        private final ColumnConverter<?> customConverter;
+
+        CustomColumnDefinition(Column column, Field modelFieldDefinition, ColumnConverter<?> customConverter) {
+            super(column, modelFieldDefinition);
+            this.customConverter = customConverter;
+        }
+
+        @Override
+        protected Object getValue(Cell cell) {
+            return customConverter.convert(cell);
         }
     }
 }
