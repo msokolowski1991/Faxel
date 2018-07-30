@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  * ModelDefinition is usually created by ModelDefinitionFactory.
- * Using Metadata from destination type annotations, populates destination instance with workbook data
+ * Represents Metadata about Destination class type
  * @param <DEST> Destination class type.
  */
 public interface ModelDefinition<DEST> {
