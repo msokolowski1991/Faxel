@@ -14,13 +14,17 @@ public class Person {
     @Column(index = 2)
     private String lastName;
 
+    @Column(index = 3)
+    private boolean isResident;
+
     public Person() {
     }
 
-    public Person(int number, String firstName, String lastName) {
+    public Person(int number, String firstName, String lastName, boolean isResident) {
         this.number = number;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.isResident = isResident;
     }
 
     @Override
@@ -29,13 +33,14 @@ public class Person {
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
         return number == person.number &&
+                isResident == person.isResident &&
                 Objects.equals(firstName, person.firstName) &&
                 Objects.equals(lastName, person.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number, firstName, lastName);
+        return Objects.hash(number, firstName, lastName, isResident);
     }
 
     public int getNumber() {
@@ -48,5 +53,25 @@ public class Person {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public boolean isResident() {
+        return isResident;
+    }
+
+    public void setResident(boolean resident) {
+        isResident = resident;
     }
 }

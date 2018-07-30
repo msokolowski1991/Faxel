@@ -22,10 +22,10 @@ class ModelDefinitionSpec extends Specification {
           result.people.size() == 4
           result.addresses.size() == 4
 
-          result.people[0] == new Person(1, "John", "Smith")
-          result.people[1] == new Person(2, "Jack", "Nicolson")
-          result.people[2] == new Person(3, "Will", "Smith")
-          result.people[3] == new Person(4, "Mike", "Kowalski")
+          result.people[0] == new Person(1, "John", "Smith", true)
+          result.people[1] == new Person(2, "Jack", "Nicolson", false)
+          result.people[2] == new Person(3, "Will", "Smith", true)
+          result.people[3] == new Person(4, "Mike", "Kowalski", true)
 
           result.addresses[0] == new Address(1, 1, "Kraków Pawia 1", "RESIDENCE")
           result.addresses[1] == new Address(2, 1, "Kraków Pawia 2", "CORESPONDENCE")
