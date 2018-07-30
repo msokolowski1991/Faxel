@@ -3,6 +3,7 @@ package faxel.model;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -40,6 +41,8 @@ abstract class ColumnDefinition {
             return new LocalDateColumnDefinition(column, modelFieldDefinition);
         } else if (columnType.isAssignableFrom(LocalDateTime.class)) {
             return new LocalDateTimeColumnDefinition(column, modelFieldDefinition);
+        } else if (columnType.isAssignableFrom(LocalTime.class)) {
+            return new LocalTimeColumnDefinition(column, modelFieldDefinition);
         } else if (columnType.isAssignableFrom(Date.class)) {
             return new DateColumnDefinition(column, modelFieldDefinition);
         } else {
@@ -159,6 +162,7 @@ abstract class ColumnDefinition {
             return value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
     }
+
     static final class LocalDateTimeColumnDefinition extends ColumnDefinition {
 
         LocalDateTimeColumnDefinition(Column column, Field modelFieldDefinition) {
@@ -169,6 +173,19 @@ abstract class ColumnDefinition {
         protected Object getValue(Cell cell) {
             final Date value = cell.getDateCellValue();
             return value.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        }
+    }
+
+    static final class LocalTimeColumnDefinition extends ColumnDefinition {
+
+        LocalTimeColumnDefinition(Column column, Field modelFieldDefinition) {
+            super(column, modelFieldDefinition);
+        }
+
+        @Override
+        protected Object getValue(Cell cell) {
+            final Date value = cell.getDateCellValue();
+            return value.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
         }
     }
 

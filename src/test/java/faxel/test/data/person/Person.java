@@ -1,6 +1,7 @@
 package faxel.test.data.person;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -26,16 +27,24 @@ public class Person {
     @Column(index = 5, converter = CustomBigDecimalConverter.class)
     private BigDecimal accountValue;
 
+    @Column(index = 6)
+    private LocalTime workDayStart;
+
+    @Column(index = 7)
+    private Float qualityFactor;
+
     public Person() {
     }
 
-    public Person(int number, String firstName, String lastName, boolean isResident, Date birhdate, BigDecimal accountValue) {
+    public Person(int number, String firstName, String lastName, boolean isResident, Date birhdate, BigDecimal accountValue, LocalTime workDayStart, Float qualityFactor) {
         this.number = number;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isResident = isResident;
         this.birhdate = birhdate;
         this.accountValue = accountValue;
+        this.workDayStart = workDayStart;
+        this.qualityFactor = qualityFactor;
     }
 
     @Override
@@ -48,12 +57,30 @@ public class Person {
                 Objects.equals(firstName, person.firstName) &&
                 Objects.equals(lastName, person.lastName) &&
                 Objects.equals(birhdate, person.birhdate) &&
-                Objects.equals(accountValue, person.accountValue);
+                Objects.equals(accountValue, person.accountValue) &&
+                Objects.equals(workDayStart, person.workDayStart) &&
+                Objects.equals(qualityFactor, person.qualityFactor);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number, firstName, lastName, isResident, birhdate, accountValue);
+        return Objects.hash(number, firstName, lastName, isResident, birhdate, accountValue, workDayStart, qualityFactor);
+    }
+
+    public LocalTime getWorkDayStart() {
+        return workDayStart;
+    }
+
+    public void setWorkDayStart(LocalTime workDayStart) {
+        this.workDayStart = workDayStart;
+    }
+
+    public Float getQualityFactor() {
+        return qualityFactor;
+    }
+
+    public void setQualityFactor(Float qualityFactor) {
+        this.qualityFactor = qualityFactor;
     }
 
     public Date getBirhdate() {

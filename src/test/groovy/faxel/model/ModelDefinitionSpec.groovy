@@ -24,10 +24,10 @@ class ModelDefinitionSpec extends Specification {
           result.people.size() == 4
           result.addresses.size() == 4
 
-          result.people[0] == new Person(1, "John", "Smith", true, new Date(90, 0, 1), decimalOf(1000))
-          result.people[1] == new Person(2, "Jack", "Nicolson", false, new Date(80, 0, 1), decimalOf(2000))
-          result.people[2] == new Person(3, "Will", "Smith", true, new Date(75, 0, 1), decimalOf(5000))
-          result.people[3] == new Person(4, "Mike", "Kowalski", true, new Date(85, 0, 1), decimalOf(10000))
+          result.people[0] == new Person(1, "John", "Smith", true, new Date(90, 0, 1), decimalOf(1000), LocalTime.of(9,0,0), 1.0f)
+          result.people[1] == new Person(2, "Jack", "Nicolson", false, new Date(80, 0, 1), decimalOf(2000), LocalTime.of(10,0,0), 0.75f)
+          result.people[2] == new Person(3, "Will", "Smith", true, new Date(75, 0, 1), decimalOf(5000), LocalTime.of(8,0,0), 0.85f)
+          result.people[3] == new Person(4, "Mike", "Kowalski", true, new Date(85, 0, 1), decimalOf(10000), LocalTime.of(7,30,0), 0.4f)
 
           result.addresses[0] == new Address(1, 1, "Kraków Pawia 1", "RESIDENCE", LocalDate.of(2020, 12, 31), LocalDateTime.of(2010, 1, 10, 12, 45))
           result.addresses[1] == new Address(2, 1, "Kraków Pawia 2", "CORESPONDENCE", LocalDate.of(2024, 12, 31), LocalDateTime.of(2010, 1, 11, 9, 45))
