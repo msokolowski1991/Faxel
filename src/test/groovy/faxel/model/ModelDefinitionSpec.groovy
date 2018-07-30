@@ -22,14 +22,18 @@ class ModelDefinitionSpec extends Specification {
           result.people.size() == 4
           result.addresses.size() == 4
 
-          result.people[0] == new Person(1, "John", "Smith", true)
-          result.people[1] == new Person(2, "Jack", "Nicolson", false)
-          result.people[2] == new Person(3, "Will", "Smith", true)
-          result.people[3] == new Person(4, "Mike", "Kowalski", true)
+          result.people[0] == new Person(1, "John", "Smith", true, new Date(90, 0, 1), decimalOf(1000))
+          result.people[1] == new Person(2, "Jack", "Nicolson", false, new Date(80, 0, 1), decimalOf(2000))
+          result.people[2] == new Person(3, "Will", "Smith", true, new Date(75, 0, 1), decimalOf(5000))
+          result.people[3] == new Person(4, "Mike", "Kowalski", true, new Date(85, 0, 1), decimalOf(10000))
 
           result.addresses[0] == new Address(1, 1, "Kraków Pawia 1", "RESIDENCE")
           result.addresses[1] == new Address(2, 1, "Kraków Pawia 2", "CORESPONDENCE")
           result.addresses[2] == new Address(3, 2, "Kraków Dolna 1", "RESIDENCE")
           result.addresses[3] == new Address(4, 3, "Kraków Al. Pokoju 1", "RESIDENCE")
+    }
+
+    private BigDecimal decimalOf(Long val) {
+        BigDecimal.valueOf(val).setScale(1)
     }
 }

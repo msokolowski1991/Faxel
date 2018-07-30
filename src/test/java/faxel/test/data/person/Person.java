@@ -1,8 +1,11 @@
 package faxel.test.data.person;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Objects;
 
 import faxel.annotation.Column;
+import faxel.test.converters.CustomBigDecimalConverter;
 
 public class Person {
     @Column(index = 0)
@@ -17,14 +20,22 @@ public class Person {
     @Column(index = 3)
     private boolean isResident;
 
+    @Column(index = 4)
+    private Date birhdate;
+
+    @Column(index = 5, converter = CustomBigDecimalConverter.class)
+    private BigDecimal accountValue;
+
     public Person() {
     }
 
-    public Person(int number, String firstName, String lastName, boolean isResident) {
+    public Person(int number, String firstName, String lastName, boolean isResident, Date birhdate, BigDecimal accountValue) {
         this.number = number;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isResident = isResident;
+        this.birhdate = birhdate;
+        this.accountValue = accountValue;
     }
 
     @Override
@@ -35,12 +46,22 @@ public class Person {
         return number == person.number &&
                 isResident == person.isResident &&
                 Objects.equals(firstName, person.firstName) &&
-                Objects.equals(lastName, person.lastName);
+                Objects.equals(lastName, person.lastName) &&
+                Objects.equals(birhdate, person.birhdate) &&
+                Objects.equals(accountValue, person.accountValue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number, firstName, lastName, isResident);
+        return Objects.hash(number, firstName, lastName, isResident, birhdate, accountValue);
+    }
+
+    public Date getBirhdate() {
+        return birhdate;
+    }
+
+    public void setBirhdate(Date birhdate) {
+        this.birhdate = birhdate;
     }
 
     public int getNumber() {
@@ -73,5 +94,13 @@ public class Person {
 
     public void setResident(boolean resident) {
         isResident = resident;
+    }
+
+    public BigDecimal getAccountValue() {
+        return accountValue;
+    }
+
+    public void setAccountValue(BigDecimal accountValue) {
+        this.accountValue = accountValue;
     }
 }
