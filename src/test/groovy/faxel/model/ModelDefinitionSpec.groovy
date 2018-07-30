@@ -64,6 +64,32 @@ class ModelDefinitionSpec extends Specification {
           }
     }
 
+    def "Should parse empty types excel to java object"() {
+        given: "Default model"
+          def excelStream = getClass().getResourceAsStream("/types-empty.xlsx")
+          def model = ModelDefinitionFactory.get().create(TypesExcelPrimitives)
+        when: "Parser parse source excel"
+          def result = model.fill(WorkbookFactory.create(excelStream), new TypesExcelPrimitives())
+        then: "The result is PersonDataExcel instance"
+          result instanceof TypesExcelPrimitives
+        when: "Result is PersonDataExcel"
+          result = result as TypesExcelPrimitives
+        then: "Result should has one row"
+          result.types.size() == 1
+          with(result.types[0]) {
+              aString == ""
+              aInteger == 0
+              aLong == 0L
+              aShort == (short) 0
+              aFloat == 0f
+              aDouble == 0d
+              (!aBoolean)
+              aLocalDate == null
+              aLocalDateTime == null
+              aLocalTime == null
+          }
+    }
+
     def "Should parse person excel to java object"() {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/person-data.xlsx")
