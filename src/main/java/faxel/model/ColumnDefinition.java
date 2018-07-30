@@ -1,6 +1,9 @@
 package faxel.model;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -33,6 +36,10 @@ abstract class ColumnDefinition {
             return new FloatColumnDefinition(column, modelFieldDefinition);
         } else if (Boolean.TYPE == columnType || columnType.isAssignableFrom(Boolean.class)) {
             return new BooleanColumnDefinition(column, modelFieldDefinition);
+        } else if (columnType.isAssignableFrom(LocalDate.class)) {
+            return new LocalDateColumnDefinition(column, modelFieldDefinition);
+        } else if (columnType.isAssignableFrom(LocalDateTime.class)) {
+            return new LocalDateTimeColumnDefinition(column, modelFieldDefinition);
         } else if (columnType.isAssignableFrom(Date.class)) {
             return new DateColumnDefinition(column, modelFieldDefinition);
         } else {
@@ -137,6 +144,31 @@ abstract class ColumnDefinition {
         @Override
         protected Object getValue(Cell cell) {
             return cell.getBooleanCellValue();
+        }
+    }
+
+    static final class LocalDateColumnDefinition extends ColumnDefinition {
+
+        LocalDateColumnDefinition(Column column, Field modelFieldDefinition) {
+            super(column, modelFieldDefinition);
+        }
+
+        @Override
+        protected Object getValue(Cell cell) {
+            final Date value = cell.getDateCellValue();
+            return value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+    }
+    static final class LocalDateTimeColumnDefinition extends ColumnDefinition {
+
+        LocalDateTimeColumnDefinition(Column column, Field modelFieldDefinition) {
+            super(column, modelFieldDefinition);
+        }
+
+        @Override
+        protected Object getValue(Cell cell) {
+            final Date value = cell.getDateCellValue();
+            return value.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         }
     }
 

@@ -6,6 +6,8 @@ import faxel.test.data.person.PersonDataExcel
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import spock.lang.Specification
 
+import java.time.*
+
 class ModelDefinitionSpec extends Specification {
 
     def "Should parse given excel to java object"() {
@@ -27,10 +29,10 @@ class ModelDefinitionSpec extends Specification {
           result.people[2] == new Person(3, "Will", "Smith", true, new Date(75, 0, 1), decimalOf(5000))
           result.people[3] == new Person(4, "Mike", "Kowalski", true, new Date(85, 0, 1), decimalOf(10000))
 
-          result.addresses[0] == new Address(1, 1, "Kraków Pawia 1", "RESIDENCE")
-          result.addresses[1] == new Address(2, 1, "Kraków Pawia 2", "CORESPONDENCE")
-          result.addresses[2] == new Address(3, 2, "Kraków Dolna 1", "RESIDENCE")
-          result.addresses[3] == new Address(4, 3, "Kraków Al. Pokoju 1", "RESIDENCE")
+          result.addresses[0] == new Address(1, 1, "Kraków Pawia 1", "RESIDENCE", LocalDate.of(2020, 12, 31), LocalDateTime.of(2010, 1, 10, 12, 45))
+          result.addresses[1] == new Address(2, 1, "Kraków Pawia 2", "CORESPONDENCE", LocalDate.of(2024, 12, 31), LocalDateTime.of(2010, 1, 11, 9, 45))
+          result.addresses[2] == new Address(3, 2, "Kraków Dolna 1", "RESIDENCE", LocalDate.of(2030, 12, 31), LocalDateTime.of(2010, 1, 12, 18, 45, 15))
+          result.addresses[3] == new Address(4, 3, "Kraków Al. Pokoju 1", "RESIDENCE", LocalDate.of(2019, 12, 31), LocalDateTime.of(2010, 1, 13, 20, 0))
     }
 
     private static BigDecimal decimalOf(Long val) {

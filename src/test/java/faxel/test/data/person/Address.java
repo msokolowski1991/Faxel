@@ -1,5 +1,7 @@
 package faxel.test.data.person;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import faxel.annotation.Column;
@@ -17,14 +19,22 @@ public class Address {
     @Column(index = 3)
     private String type;
 
+    @Column(index = 4)
+    private LocalDate validTo;
+
+    @Column(index = 5)
+    private LocalDateTime checkInDate;
+
     public Address() {
     }
 
-    public Address(int number, int personNumber, String address, String type) {
+    public Address(int number, int personNumber, String address, String type, LocalDate validTo, LocalDateTime checkInDate) {
         this.number = number;
         this.personNumber = personNumber;
         this.address = address;
         this.type = type;
+        this.validTo = validTo;
+        this.checkInDate = checkInDate;
     }
 
     @Override
@@ -35,12 +45,30 @@ public class Address {
         return number == address1.number &&
                 personNumber == address1.personNumber &&
                 Objects.equals(address, address1.address) &&
-                Objects.equals(type, address1.type);
+                Objects.equals(type, address1.type) &&
+                Objects.equals(validTo, address1.validTo) &&
+                Objects.equals(checkInDate, address1.checkInDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number, personNumber, address, type);
+        return Objects.hash(number, personNumber, address, type, validTo, checkInDate);
+    }
+
+    public LocalDateTime getCheckInDate() {
+        return checkInDate;
+    }
+
+    public void setCheckInDate(LocalDateTime checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    public LocalDate getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(LocalDate validTo) {
+        this.validTo = validTo;
     }
 
     public int getNumber() {
