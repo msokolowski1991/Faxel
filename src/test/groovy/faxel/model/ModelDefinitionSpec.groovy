@@ -33,7 +33,7 @@ class ModelDefinitionSpec extends Specification {
           result.addresses[3] == new Address(4, 3, "Kraków Al. Pokoju 1", "RESIDENCE")
     }
 
-    private BigDecimal decimalOf(Long val) {
+    private static BigDecimal decimalOf(Long val) {
         BigDecimal.valueOf(val).setScale(1)
     }
 }
