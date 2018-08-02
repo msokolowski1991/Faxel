@@ -36,6 +36,7 @@ class ApachePoiSource implements SourceExcel {
         private class RowIterator implements Iterator<SourceRow> {
 
             private final Iterator<Row> it;
+            private ApachePoiRow current;
 
             private RowIterator(Iterator<Row> it) {this.it = it;}
 
@@ -46,29 +47,49 @@ class ApachePoiSource implements SourceExcel {
 
             @Override
             public SourceRow next() {
-                // CONSIDER reusing ApachePoiRow
-                return new ApachePoiRow(it.next());
+                final Row next = it.next();
+                if (current == null) {
+                    return current = new ApachePoiRow(next);
+                } else {
+                    return current.with(next);
+                }
             }
         }
     }
 
     private class ApachePoiRow implements SourceRow {
 
-        private final Row row;
+        private Row row;
+        private ApachePoiCell cellTemplate;
 
         private ApachePoiRow(Row row) {this.row = row;}
 
+        private ApachePoiRow with(Row row) {
+            this.row = row;
+            return this;
+        }
+
         @Override
         public SourceCell cellAt(int index) {
-            return new ApachePoiCell(row.getCell(index));
+            final Cell cell = row.getCell(index);
+            if (cellTemplate == null) {
+                return cellTemplate = new ApachePoiCell(cell);
+            } else {
+                return cellTemplate.with(cell);
+            }
         }
     }
 
     private class ApachePoiCell implements SourceCell {
 
-        private final Cell cell;
+        private Cell cell;
 
         private ApachePoiCell(Cell cell) {this.cell = cell;}
+
+        private ApachePoiCell with(Cell cell) {
+            this.cell = cell;
+            return this;
+        }
 
         @Override
         public String stringValue() {
