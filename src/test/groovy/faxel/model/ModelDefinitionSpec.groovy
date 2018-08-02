@@ -1,14 +1,16 @@
 package faxel.model
 
+import faxel.source.SourceFactory
 import faxel.test.data.person.Address
 import faxel.test.data.person.Person
 import faxel.test.data.person.PersonDataExcel
 import faxel.test.data.types.TypesExcelBoxed
 import faxel.test.data.types.TypesExcelPrimitives
-import org.apache.poi.ss.usermodel.WorkbookFactory
 import spock.lang.Specification
 
-import java.time.*
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 class ModelDefinitionSpec extends Specification {
 
@@ -17,7 +19,7 @@ class ModelDefinitionSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesExcelBoxed)
         when: "Parser parse source excel"
-          def result = model.fill(WorkbookFactory.create(excelStream), new TypesExcelBoxed())
+          def result = model.fill(SourceFactory.get().create(excelStream), new TypesExcelBoxed())
         then: "The result is PersonDataExcel instance"
           result instanceof TypesExcelBoxed
         when: "Result is PersonDataExcel"
@@ -43,7 +45,7 @@ class ModelDefinitionSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesExcelPrimitives)
         when: "Parser parse source excel"
-          def result = model.fill(WorkbookFactory.create(excelStream), new TypesExcelPrimitives())
+          def result = model.fill(SourceFactory.get().create(excelStream), new TypesExcelPrimitives())
         then: "The result is PersonDataExcel instance"
           result instanceof TypesExcelPrimitives
         when: "Result is PersonDataExcel"
@@ -69,7 +71,7 @@ class ModelDefinitionSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/types-empty.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesExcelPrimitives)
         when: "Parser parse source excel"
-          def result = model.fill(WorkbookFactory.create(excelStream), new TypesExcelPrimitives())
+          def result = model.fill(SourceFactory.get().create(excelStream), new TypesExcelPrimitives())
         then: "The result is PersonDataExcel instance"
           result instanceof TypesExcelPrimitives
         when: "Result is PersonDataExcel"
@@ -95,7 +97,7 @@ class ModelDefinitionSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/person-data.xlsx")
           def model = ModelDefinitionFactory.get().create(PersonDataExcel)
         when: "Parser parse source excel"
-          def result = model.fill(WorkbookFactory.create(excelStream), new PersonDataExcel())
+          def result = model.fill(SourceFactory.get().create(excelStream), new PersonDataExcel())
         then: "The result is PersonDataExcel instance"
           result instanceof PersonDataExcel
         when: "Result is PersonDataExcel"

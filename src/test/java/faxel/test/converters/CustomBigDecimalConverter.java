@@ -2,14 +2,13 @@ package faxel.test.converters;
 
 import java.math.BigDecimal;
 
-import org.apache.poi.ss.usermodel.Cell;
-
 import faxel.converter.ColumnConverter;
+import faxel.source.SourceCell;
 
 public class CustomBigDecimalConverter implements ColumnConverter<BigDecimal> {
     @Override
-    public BigDecimal convert(Cell cell) {
-        final double numericCellValue = cell.getNumericCellValue();
+    public BigDecimal convert(SourceCell cell) {
+        final double numericCellValue = cell.numericValue();
         return BigDecimal.valueOf(numericCellValue);
     }
 }

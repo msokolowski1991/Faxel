@@ -2,9 +2,8 @@ package faxel.annotation;
 
 import java.lang.annotation.*;
 
-import org.apache.poi.ss.usermodel.Cell;
-
 import faxel.converter.ColumnConverter;
+import faxel.source.SourceCell;
 
 /**
  * Annotation used to mark a field of a class as column representation
@@ -29,7 +28,7 @@ public @interface Column {
     class ThrowingConverter implements ColumnConverter<Object> {
 
         @Override
-        public Object convert(Cell cell) {
+        public Object convert(SourceCell cell) {
             throw new IllegalArgumentException(
                     String.format("Could not extract value from %s. Unknown Type. Try to implement own Converter", cell)
             );

@@ -1,6 +1,6 @@
 package faxel.converter;
 
-import org.apache.poi.ss.usermodel.Cell;
+import faxel.source.SourceCell;
 
 /**
  * Custom column converter. Might be used to implement custom cell value extraction
@@ -13,5 +13,5 @@ public interface ColumnConverter<DEST> {
      * @param cell Source cell
      * @return Destination value or null
      */
-    DEST convert(Cell cell);
+    DEST convert(SourceCell cell);
 }

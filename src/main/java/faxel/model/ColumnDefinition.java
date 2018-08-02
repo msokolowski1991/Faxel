@@ -7,13 +7,13 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import faxel.annotation.Column;
 import faxel.converter.ColumnConverter;
+import faxel.source.SourceCell;
+import faxel.source.SourceRow;
 
 abstract class ColumnDefinition {
     private static Logger LOG = LoggerFactory.getLogger(ColumnDefinition.class);
@@ -56,13 +56,13 @@ abstract class ColumnDefinition {
         this.modelFieldDefinition = modelFieldDefinition;
     }
 
-    void fill(Object rowModel, Row rowData) {
-        LOG.trace("Filling {} with column {}", rowModel, column);
-        final Cell cell = rowData.getCell(column.index());
-        Try.silently(() -> modelFieldDefinition.set(rowModel, getValue(cell)));
+    void fill(Object SourceRowModel, SourceRow sourceRowData) {
+        LOG.trace("Filling {} with column {}", SourceRowModel, column);
+        final SourceCell cell = sourceRowData.cellAt(column.index());
+        Try.silently(() -> modelFieldDefinition.set(SourceRowModel, getValue(cell)));
     }
 
-    protected abstract Object getValue(Cell cell);
+    protected abstract Object getValue(SourceCell cell);
 
     // ---------------------------------------------------------------------------
 
@@ -73,8 +73,8 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
-            return cell.getStringCellValue();
+        protected Object getValue(SourceCell cell) {
+            return cell.stringValue();
         }
     }
 
@@ -85,8 +85,8 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
-            return cell.getNumericCellValue();
+        protected Object getValue(SourceCell cell) {
+            return cell.numericValue();
         }
     }
 
@@ -97,8 +97,8 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
-            return (int) cell.getNumericCellValue();
+        protected Object getValue(SourceCell cell) {
+            return (int) cell.numericValue();
         }
     }
 
@@ -109,8 +109,8 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
-            return (float) cell.getNumericCellValue();
+        protected Object getValue(SourceCell cell) {
+            return (float) cell.numericValue();
         }
     }
 
@@ -121,8 +121,8 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
-            return (long) cell.getNumericCellValue();
+        protected Object getValue(SourceCell cell) {
+            return (long) cell.numericValue();
         }
     }
 
@@ -133,8 +133,8 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
-            return (short) cell.getNumericCellValue();
+        protected Object getValue(SourceCell cell) {
+            return (short) cell.numericValue();
         }
     }
 
@@ -145,8 +145,8 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
-            return cell.getBooleanCellValue();
+        protected Object getValue(SourceCell cell) {
+            return cell.boolValue();
         }
     }
 
@@ -157,8 +157,8 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
-            final Date value = cell.getDateCellValue();
+        protected Object getValue(SourceCell cell) {
+            final Date value = cell.dateValue();
             return value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
     }
@@ -170,8 +170,8 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
-            final Date value = cell.getDateCellValue();
+        protected Object getValue(SourceCell cell) {
+            final Date value = cell.dateValue();
             return value.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         }
     }
@@ -183,8 +183,8 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
-            final Date value = cell.getDateCellValue();
+        protected Object getValue(SourceCell cell) {
+            final Date value = cell.dateValue();
             return value.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
         }
     }
@@ -196,8 +196,8 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
-            return cell.getDateCellValue();
+        protected Object getValue(SourceCell cell) {
+            return cell.dateValue();
         }
     }
 
@@ -211,7 +211,7 @@ abstract class ColumnDefinition {
         }
 
         @Override
-        protected Object getValue(Cell cell) {
+        protected Object getValue(SourceCell cell) {
             return customConverter.convert(cell);
         }
     }

@@ -1,6 +1,6 @@
 package faxel.model;
 
-import org.apache.poi.ss.usermodel.Workbook;
+import faxel.source.SourceExcel;
 
 /**
  * ModelDefinition is usually created by ModelDefinitionFactory.
@@ -10,9 +10,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 public interface ModelDefinition<DEST> {
     /**
      * Fills destination class with given workbook data
-     * @param workbook  source of data
+     * @param source  source of data
      * @param destination destination
      * @return destination - the same as input one
      */
-    DEST fill(Workbook workbook, DEST destination);
+    DEST fill(SourceExcel source, DEST destination);
 }

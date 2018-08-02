@@ -2,9 +2,10 @@ package faxel.model;
 
 import java.util.Collection;
 
-import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import faxel.source.SourceExcel;
 
 final class DefaultModelDefinition<DEST> implements ModelDefinition<DEST> {
     private static Logger LOG = LoggerFactory.getLogger(DefaultModelDefinition.class);
@@ -17,9 +18,9 @@ final class DefaultModelDefinition<DEST> implements ModelDefinition<DEST> {
     }
 
     @Override
-    public DEST fill(Workbook workbook, DEST destination) {
+    public DEST fill(SourceExcel source, DEST destination) {
         LOG.trace("Filling Model {}", destination.getClass());
-        sheetDefinitions.forEach(sheet -> sheet.fill(workbook, destination));
+        sheetDefinitions.forEach(sheet -> sheet.fill(source, destination));
         LOG.trace("Model {} filled", destination.getClass());
         return destination;
     }
