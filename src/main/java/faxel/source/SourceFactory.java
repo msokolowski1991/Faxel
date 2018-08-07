@@ -1,10 +1,7 @@
 package faxel.source;
 
-import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public abstract class SourceFactory {
 
@@ -33,11 +30,14 @@ public abstract class SourceFactory {
     private static SourceFactory apachePoiImpl() {
         return new SourceFactory() {
             @Override
-            public SourceExcel create(InputStream is) {
+            public SourceExcel create(InputStream sourceStream) {
+                if (sourceStream == null) {
+                    throw new IllegalArgumentException("sourceStream param could not be null");
+                }
                 try {
-                    return new ApachePoiSource(WorkbookFactory.create(is));
-                } catch (IOException | InvalidFormatException e) {
-                    throw new IllegalArgumentException("Could not open excel", e);
+                    return new ApachePoiSource(org.apache.poi.ss.usermodel.WorkbookFactory.create(sourceStream));
+                } catch (Throwable e) {
+                    throw new IllegalStateException("Could not open excel", e);
                 }
             }
         };
