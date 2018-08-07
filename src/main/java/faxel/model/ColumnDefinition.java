@@ -18,7 +18,7 @@ import faxel.source.SourceRow;
 abstract class ColumnDefinition {
     private static Logger LOG = LoggerFactory.getLogger(ColumnDefinition.class);
 
-    private final Column column;
+    private final Column columnMetadata;
     private final Field modelFieldDefinition;
 
     static ColumnDefinition create(Column column, Field modelFieldDefinition) {
@@ -51,14 +51,14 @@ abstract class ColumnDefinition {
         }
     }
 
-    private ColumnDefinition(Column column, Field modelFieldDefinition) {
-        this.column = column;
+    private ColumnDefinition(Column columnMetadata, Field modelFieldDefinition) {
+        this.columnMetadata = columnMetadata;
         this.modelFieldDefinition = modelFieldDefinition;
     }
 
     void fill(Object SourceRowModel, SourceRow sourceRowData) {
-        LOG.trace("Filling {} with column {}", SourceRowModel, column);
-        final SourceCell cell = sourceRowData.cellAt(column.index());
+        LOG.trace("Filling {} with column {}", SourceRowModel, columnMetadata);
+        final SourceCell cell = sourceRowData.cellAt(columnMetadata.index());
         Try.silently(() -> modelFieldDefinition.set(SourceRowModel, getValue(cell)));
     }
 

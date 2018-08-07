@@ -43,38 +43,52 @@ public final class ModelDefinitionFactory {
                 .map(this::tryToCreateSheetDefinition)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+        if (sheetDefinitions.isEmpty()) {
+            LOG.warn("Did not found any sheet definition. Did you forgot to annotate @SheetRows?");
+        }
         return new DefaultModelDefinition<>(sheetDefinitions);
     }
 
-    private SheetDefinition tryToCreateSheetDefinition(Field sheetField) {
-        if (sheetField.isAnnotationPresent(SheetRows.class)) {
-            final SheetRows sheetRowsAnnotation = sheetField.getAnnotation(SheetRows.class);
-            final Class<?> fieldType = sheetField.getType();
+    private SheetDefinition tryToCreateSheetDefinition(Field sheetFieldCandidate) {
+        if (sheetFieldCandidate.isAnnotationPresent(SheetRows.class)) {
+            final SheetRows sheetMetadata = sheetFieldCandidate.getAnnotation(SheetRows.class);
+            final Class<?> fieldType = sheetFieldCandidate.getType();
             if (fieldType.isAssignableFrom(Collection.class)) {
-                final Class<?> rowType = (Class<?>) ((ParameterizedType) sheetField.getGenericType()).getActualTypeArguments()[0];
-                final List<ColumnDefinition> columnDefinitions = Arrays.stream(rowType.getDeclaredFields())
-                        .peek(columnField -> columnField.setAccessible(true))
-                        .map(this::tryToCreateColumnDefinition)
-                        .filter(Objects::nonNull)
-                        .collect(Collectors.toList());
-                return new SheetDefinition(sheetRowsAnnotation, sheetField, rowType, columnDefinitions);
+                return createSheetDefinition(sheetFieldCandidate, sheetMetadata);
             } else {
-                throw new IllegalArgumentException("SheetRows annotation should be placed on Collection");
+                throw new IllegalArgumentException("SheetRows annotation must be placed on Collection!");
             }
         } else {
-            LOG.trace("Field {} is not recognized as sheet field. Skipping", sheetField);
+            LOG.trace("Field {} is not recognized as sheet field. Skipping", sheetFieldCandidate);
             return null;
         }
     }
 
-    private ColumnDefinition tryToCreateColumnDefinition(Field columnField) {
-        if (columnField.isAnnotationPresent(Column.class)) {
-            final Column columnAnnotation = columnField.getAnnotation(Column.class);
-            return ColumnDefinition.create(columnAnnotation, columnField);
+    private SheetDefinition createSheetDefinition(Field sheetField, SheetRows sheetMetadata) {
+        final Class<?> rowType = (Class<?>) ((ParameterizedType) sheetField.getGenericType()).getActualTypeArguments()[0];
+        final List<ColumnDefinition> columnDefinitions = Arrays.stream(rowType.getDeclaredFields())
+                .peek(columnField -> columnField.setAccessible(true))
+                .map(this::tryToCreateColumnDefinition)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        if (columnDefinitions.isEmpty()) {
+            LOG.warn("Did not found any column definition in {}. Did you forgot to annotate @Column?", sheetMetadata);
+        }
+        return new SheetDefinition(sheetMetadata, sheetField, rowType, columnDefinitions);
+    }
+
+    private ColumnDefinition tryToCreateColumnDefinition(Field columnFieldCandidate) {
+        if (columnFieldCandidate.isAnnotationPresent(Column.class)) {
+            return createColumnDefinition(columnFieldCandidate);
         } else {
-            LOG.trace("Field {} is not recognized as column field. Skipping", columnField);
+            LOG.trace("Field {} is not recognized as column field. Skipping", columnFieldCandidate);
             return null;
         }
+    }
+
+    private ColumnDefinition createColumnDefinition(Field columnField) {
+        final Column columnAnnotation = columnField.getAnnotation(Column.class);
+        return ColumnDefinition.create(columnAnnotation, columnField);
     }
 
 }
