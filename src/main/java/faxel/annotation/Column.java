@@ -21,7 +21,7 @@ public @interface Column {
     /**
      * Custom value converter class.
      * Implementing own Converter might help you extract values to your domain specific objects.
-     * @return Class<? extends ColumnConverter>
+     * @return ColumnConverter class
      */
     Class<? extends ColumnConverter> converter() default ThrowingConverter.class;
 

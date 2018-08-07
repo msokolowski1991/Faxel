@@ -25,9 +25,12 @@ public class ModelDefinitionFactory {
     }
 
     /**
-     * Creates ModelDefinition from Class object. </td>
-     * All collections annotated as {@link faxel.annotation.SheetRows} will be matched to excel sheets.  </td>
+     * Creates ModelDefinition from Class object. <br>
+     * All collections annotated as {@link faxel.annotation.SheetRows} will be matched to excel sheets.  <br>
      * Which field within above collection generic type annotated as {@link faxel.annotation.Column} will be matched to excel column by index.
+     * @param clazz The class of model destination object.
+     * @param <T> Type of destination object
+     * @return Created ModelDefinition for given class
      */
     public <T> ModelDefinition<T> create(Class<T> clazz) {
         if (clazz == null) {
