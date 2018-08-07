@@ -17,12 +17,14 @@ import faxel.annotation.SheetRows;
 /**
  * ModelDefinition objects Factory
  */
-public class ModelDefinitionFactory {
+public final class ModelDefinitionFactory {
     private static Logger LOG = LoggerFactory.getLogger(ModelDefinitionFactory.class);
 
     public static ModelDefinitionFactory get() {
         return new ModelDefinitionFactory();
     }
+
+    private ModelDefinitionFactory() {}
 
     /**
      * Creates ModelDefinition from Class object. <br>
