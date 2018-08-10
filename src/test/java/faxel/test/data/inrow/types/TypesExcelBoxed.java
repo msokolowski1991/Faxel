@@ -1,11 +1,11 @@
-package faxel.test.data.types;
+package faxel.test.data.inrow.types;
 
 import java.util.Collection;
 
-import faxel.annotation.SheetRows;
+import faxel.annotation.ExcelSheet;
 
 public class TypesExcelBoxed {
-    @SheetRows(sheetName = "types", firstDataRow = 2)
+    @ExcelSheet(sheetName = "types", start = 2)
     private Collection<TypesBoxed> types;
 
     public TypesExcelBoxed(Collection<TypesBoxed> types) {

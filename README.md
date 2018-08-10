@@ -48,7 +48,7 @@ If you like to parse cell to type Faxel does not support out of the box, you may
 ```
     faxel.converter.ColumnConverter
 ```
-Then use it in @Column annotation
+Then use it in @Cell annotation
 ```
     @Column(index = 5, converter = CustomBigDecimalConverter.class)
 ```

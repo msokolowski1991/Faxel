@@ -1,11 +1,13 @@
 package faxel.model
 
 import faxel.source.SourceFactory
-import faxel.test.data.person.Address
-import faxel.test.data.person.Person
-import faxel.test.data.person.PersonDataExcel
-import faxel.test.data.types.TypesExcelBoxed
-import faxel.test.data.types.TypesExcelPrimitives
+import faxel.test.data.incolumn.Vehicle
+import faxel.test.data.incolumn.VehicleExcel
+import faxel.test.data.inrow.person.Address
+import faxel.test.data.inrow.person.Person
+import faxel.test.data.inrow.person.PersonDataExcel
+import faxel.test.data.inrow.types.TypesExcelBoxed
+import faxel.test.data.inrow.types.TypesExcelPrimitives
 import spock.lang.Specification
 
 import java.time.LocalDate
@@ -14,7 +16,7 @@ import java.time.LocalTime
 
 class ModelDefinitionSpec extends Specification {
 
-    def "Should parse boxed types excel to java object"() {
+    def "Should parse boxed types excel arranged in rows to java object"() {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesExcelBoxed)
@@ -40,7 +42,7 @@ class ModelDefinitionSpec extends Specification {
           }
     }
 
-    def "Should parse primitive types excel to java object"() {
+    def "Should parse primitive types excel arranged in rows to java object"() {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesExcelPrimitives)
@@ -66,7 +68,7 @@ class ModelDefinitionSpec extends Specification {
           }
     }
 
-    def "Should parse empty types excel to java object"() {
+    def "Should parse empty types excel arranged in rows to java object"() {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/types-empty.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesExcelPrimitives)
@@ -92,7 +94,7 @@ class ModelDefinitionSpec extends Specification {
           }
     }
 
-    def "Should parse person excel to java object"() {
+    def "Should parse person excel arranged in rows to java object"() {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/person-data.xlsx")
           def model = ModelDefinitionFactory.get().create(PersonDataExcel)
@@ -115,6 +117,22 @@ class ModelDefinitionSpec extends Specification {
           result.addresses[1] == new Address(2, 1, "Kraków Pawia 2", "CORESPONDENCE", LocalDate.of(2024, 12, 31), LocalDateTime.of(2010, 1, 11, 9, 45))
           result.addresses[2] == new Address(3, 2, "Kraków Dolna 1", "RESIDENCE", LocalDate.of(2030, 12, 31), LocalDateTime.of(2010, 1, 12, 18, 45, 15))
           result.addresses[3] == new Address(4, 3, "Kraków Al. Pokoju 1", "RESIDENCE", LocalDate.of(2019, 12, 31), LocalDateTime.of(2010, 1, 13, 20, 0))
+    }
+
+    def "Should parse vehicles excel arranged in columns to java object"() {
+        given: "Default model"
+          def excelStream = getClass().getResourceAsStream("/vehicles.xlsx")
+          def model = ModelDefinitionFactory.get().create(VehicleExcel)
+        when: "Parser parse source excel"
+          def result = model.fill(SourceFactory.get().create(excelStream), new VehicleExcel())
+        then: "The result is PersonDataExcel instance"
+          result instanceof VehicleExcel
+        when: "Result is PersonDataExcel"
+          result = result as VehicleExcel
+        then: "Result should has one row"
+          result.vehicles.size() == 2
+          result.vehicles[0] == new Vehicle("Honda", "Accord")
+          result.vehicles[1] == new Vehicle("Volkswagen", "Polo")
     }
 
     private static BigDecimal decimalOf(Long val) {

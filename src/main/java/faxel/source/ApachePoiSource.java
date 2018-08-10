@@ -1,14 +1,13 @@
 package faxel.source;
 
-import java.util.Date;
-import java.util.Iterator;
+import static java.util.stream.StreamSupport.stream;
+
+import java.util.*;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-
-import faxel.annotation.SheetRows;
 
 class ApachePoiSource implements SourceExcel {
 
@@ -17,8 +16,8 @@ class ApachePoiSource implements SourceExcel {
     ApachePoiSource(Workbook workbook) {this.workbook = workbook;}
 
     @Override
-    public SourceSheet sheetOf(SheetRows rows) {
-        final Sheet sheet = workbook.getSheet(rows.sheetName());
+    public SourceSheet sheetOf(String sheetName) {
+        final Sheet sheet = workbook.getSheet(sheetName);
         return new ApachePoiSheet(sheet);
     }
 
@@ -29,16 +28,21 @@ class ApachePoiSource implements SourceExcel {
         private ApachePoiSheet(Sheet sheet) {this.sheet = sheet;}
 
         @Override
-        public Iterator<SourceRow> rowsIterator() {
-            return new RowIterator(sheet.rowIterator());
+        public Iterator<SourceCells> rowsIterator() {
+            return new RowIterator(sheet);
         }
 
-        private class RowIterator implements Iterator<SourceRow> {
+        @Override
+        public Iterator<SourceCells> columnsIterator() {
+            return new ColumnIterator(sheet);
+        }
+
+        private class RowIterator implements Iterator<SourceCells> {
 
             private final Iterator<Row> it;
-            private ApachePoiRow current;
+            private ApachePoiRowCells current;
 
-            private RowIterator(Iterator<Row> it) {this.it = it;}
+            private RowIterator(Sheet sheet) {this.it = sheet.rowIterator();}
 
             @Override
             public boolean hasNext() {
@@ -46,32 +50,88 @@ class ApachePoiSource implements SourceExcel {
             }
 
             @Override
-            public SourceRow next() {
+            public SourceCells next() {
                 final Row next = it.next();
                 if (current == null) {
-                    return current = new ApachePoiRow(next);
+                    return current = new ApachePoiRowCells(next);
                 } else {
                     return current.with(next);
                 }
             }
         }
+
+        private class ColumnIterator implements Iterator<SourceCells> {
+
+            private int currentCell = 0;
+            private final int lastCell;
+            private final Sheet sheet;
+            private ApachePoiColumnCells current;
+
+            private ColumnIterator(Sheet sheet) {
+                this.sheet = sheet;
+                this.lastCell = stream(Spliterators.spliteratorUnknownSize(sheet.rowIterator(), Spliterator.ORDERED), false)
+                        .max(Comparator.comparing(Row::getLastCellNum))
+                        .map(r -> (int) r.getLastCellNum()).orElse(0);
+            }
+
+            @Override
+            public boolean hasNext() {
+                return currentCell < lastCell;
+            }
+
+            @Override
+            public SourceCells next() {
+                if (current == null) {
+                    return current = new ApachePoiColumnCells(sheet, currentCell++);
+                } else {
+                    return current.with(currentCell++);
+                }
+            }
+        }
     }
 
-    private class ApachePoiRow implements SourceRow {
+    private class ApachePoiRowCells implements SourceCells {
 
         private Row row;
         private ApachePoiCell cellTemplate;
 
-        private ApachePoiRow(Row row) {this.row = row;}
+        private ApachePoiRowCells(Row row) {this.row = row;}
 
-        private ApachePoiRow with(Row row) {
+        private ApachePoiRowCells with(Row row) {
             this.row = row;
             return this;
         }
 
         @Override
-        public SourceCell cellAt(int index) {
-            final Cell cell = row.getCell(index);
+        public SourceCell cellAt(int columnIndex) {
+            final Cell cell = row.getCell(columnIndex);
+            if (cellTemplate == null) {
+                return cellTemplate = new ApachePoiCell(cell);
+            } else {
+                return cellTemplate.with(cell);
+            }
+        }
+    }
+
+    private class ApachePoiColumnCells implements SourceCells {
+
+        private final Sheet sheet;
+        private int columnIndex;
+        private ApachePoiCell cellTemplate;
+
+        private ApachePoiColumnCells(Sheet sheet, int columnIndex) {
+            this.sheet = sheet;
+            this.columnIndex = columnIndex;
+        }
+
+        private ApachePoiColumnCells with(int columnIndex) {
+            this.columnIndex = columnIndex;
+            return this;
+        }
+
+        @Override
+        public SourceCell cellAt(int rowIndex) {
+            final Cell cell = sheet.getRow(rowIndex).getCell(columnIndex);
             if (cellTemplate == null) {
                 return cellTemplate = new ApachePoiCell(cell);
             } else {

@@ -11,7 +11,7 @@ import faxel.source.SourceCell;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 @Documented
-public @interface Column {
+public @interface Cell {
 
     /**
      * @return index of column in row

@@ -1,14 +1,14 @@
-package faxel.test.data.person;
+package faxel.test.data.inrow.person;
 
 import java.util.Collection;
 
-import faxel.annotation.SheetRows;
+import faxel.annotation.ExcelSheet;
 
 public class PersonDataExcel {
-    @SheetRows(sheetName = "Person", firstDataRow = 2)
+    @ExcelSheet(sheetName = "Person", start = 2)
     private Collection<Person> people;
 
-    @SheetRows(sheetName = "Address", firstDataRow = 2)
+    @ExcelSheet(sheetName = "Address", start = 2)
     private Collection<Address> addresses;
 
     public Collection<Person> getPeople() {

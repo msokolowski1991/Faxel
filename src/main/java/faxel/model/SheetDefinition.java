@@ -3,50 +3,63 @@ package faxel.model;
 import static java.util.stream.StreamSupport.stream;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import faxel.annotation.SheetRows;
+import faxel.annotation.ExcelSheet;
+import faxel.source.SourceCells;
 import faxel.source.SourceExcel;
-import faxel.source.SourceRow;
 import faxel.source.SourceSheet;
 
 final class SheetDefinition {
     private static Logger LOG = LoggerFactory.getLogger(SheetDefinition.class);
 
-    private final SheetRows sheetMetadata;
-    private final Field rowsCollectionField;
+    private final ExcelSheet sheetMetadata;
+    private final Field modelsCollection;
     private final Class<?> rowType;
-    private final Collection<ColumnDefinition> columnDefinitions;
+    private final Collection<CellDefinition> cellDefinitions;
 
-    SheetDefinition(SheetRows sheetMetadata, Field rowsCollectionField, Class<?> rowType, Collection<ColumnDefinition> columnDefinitions) {
+    SheetDefinition(ExcelSheet sheetMetadata, Field modelsCollection, Class<?> rowType, Collection<CellDefinition> cellDefinitions) {
         this.sheetMetadata = sheetMetadata;
-        this.rowsCollectionField = rowsCollectionField;
+        this.modelsCollection = modelsCollection;
         this.rowType = rowType;
-        this.columnDefinitions = columnDefinitions;
+        this.cellDefinitions = cellDefinitions;
     }
 
     void fill(SourceExcel source, Object destination) {
         LOG.trace("Filling Model {} from {} sheet", destination.getClass(), sheetMetadata.sheetName());
 
-        final List<Object> rows = rowsStream(source).map(rowData -> {
-            Object rowModel = ClassInitializer.createSilently(rowType);
-            columnDefinitions.forEach(columnDefinition -> columnDefinition.fill(rowModel, rowData));
-            return rowModel;
+        final List<Object> rows = cellsStream(source).map(rowData -> {
+            Object model = ClassInitializer.createSilently(rowType);
+            cellDefinitions.forEach(cellDefinition -> cellDefinition.fill(model, rowData));
+            return model;
         }).collect(Collectors.toList());
 
-        Try.silently(() -> rowsCollectionField.set(destination, rows));
+        Try.silently(() -> modelsCollection.set(destination, rows));
     }
 
-    private Stream<SourceRow> rowsStream(SourceExcel source) {
-        final SourceSheet sheet = source.sheetOf(this.sheetMetadata);
-        return stream(Spliterators.spliteratorUnknownSize(sheet.rowsIterator(), Spliterator.ORDERED), false).skip(sheetMetadata.firstDataRow() - 1);
+    private Stream<SourceCells> cellsStream(SourceExcel source) {
+        final SourceSheet sheet = source.sheetOf(this.sheetMetadata.sheetName());
+        final int firstPosition = sheetMetadata.start() - 1;
+        final int numberOfRowsToParse = sheetMetadata.max() - sheetMetadata.start();
+        final Iterator<SourceCells> cellsIterator = cellsIterator(sheet);
+        return stream(Spliterators.spliteratorUnknownSize(cellsIterator, Spliterator.ORDERED), false)
+                .skip(firstPosition)
+                .limit(numberOfRowsToParse);
+    }
+
+    private Iterator<SourceCells> cellsIterator(SourceSheet sheet) {
+        switch (sheetMetadata.arrangement()) {
+            case ROW:
+                return sheet.rowsIterator();
+            case COLUMN:
+                return sheet.columnsIterator();
+            default:
+                throw new IllegalArgumentException("Unknown data arrangement type");
+        }
     }
 }

@@ -1,36 +1,36 @@
-package faxel.test.data.person;
+package faxel.test.data.inrow.person;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.Objects;
 
-import faxel.annotation.Column;
+import faxel.annotation.Cell;
 import faxel.test.converters.CustomBigDecimalConverter;
 
 public class Person {
-    @Column(index = 0)
+    @Cell(index = 0)
     private int number;
 
-    @Column(index = 1)
+    @Cell(index = 1)
     private String firstName;
 
-    @Column(index = 2)
+    @Cell(index = 2)
     private String lastName;
 
-    @Column(index = 3)
+    @Cell(index = 3)
     private boolean isResident;
 
-    @Column(index = 4)
+    @Cell(index = 4)
     private Date birhdate;
 
-    @Column(index = 5, converter = CustomBigDecimalConverter.class)
+    @Cell(index = 5, converter = CustomBigDecimalConverter.class)
     private BigDecimal accountValue;
 
-    @Column(index = 6)
+    @Cell(index = 6)
     private LocalTime workDayStart;
 
-    @Column(index = 7)
+    @Cell(index = 7)
     private Float qualityFactor;
 
     public Person() {

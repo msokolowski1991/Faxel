@@ -1,28 +1,28 @@
-package faxel.test.data.person;
+package faxel.test.data.inrow.person;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import faxel.annotation.Column;
+import faxel.annotation.Cell;
 
 public class Address {
-    @Column(index = 0)
+    @Cell(index = 0)
     private int number;
 
-    @Column(index = 1)
+    @Cell(index = 1)
     private int personNumber;
 
-    @Column(index = 2)
+    @Cell(index = 2)
     private String address;
 
-    @Column(index = 3)
+    @Cell(index = 3)
     private String type;
 
-    @Column(index = 4)
+    @Cell(index = 4)
     private LocalDate validTo;
 
-    @Column(index = 5)
+    @Cell(index = 5)
     private LocalDateTime checkInDate;
 
     public Address() {

@@ -1,42 +1,42 @@
-package faxel.test.data.types;
+package faxel.test.data.inrow.types;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
-import faxel.annotation.Column;
+import faxel.annotation.Cell;
 
 public class TypesBoxed {
 
-    @Column(index = 1)
+    @Cell(index = 1)
     private String aString;
 
-    @Column(index = 2)
+    @Cell(index = 2)
     private Integer aInteger;
 
-    @Column(index = 3)
+    @Cell(index = 3)
     private Long aLong;
 
-    @Column(index = 4)
+    @Cell(index = 4)
     private Short aShort;
 
-    @Column(index = 5)
+    @Cell(index = 5)
     private Float aFloat;
 
-    @Column(index = 6)
+    @Cell(index = 6)
     private Double aDouble;
 
-    @Column(index = 7)
+    @Cell(index = 7)
     private Boolean aBoolean;
 
-    @Column(index = 8)
+    @Cell(index = 8)
     private LocalDate aLocalDate;
 
-    @Column(index = 9)
+    @Cell(index = 9)
     private LocalDateTime aLocalDateTime;
 
-    @Column(index = 10)
+    @Cell(index = 10)
     private LocalTime aLocalTime;
 
     public TypesBoxed() {
