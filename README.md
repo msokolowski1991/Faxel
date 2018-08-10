@@ -36,17 +36,17 @@ And that's it! We successfully parsed an entire excel!
 ## Types
 ### Built in types support
 By default Faxel support following types:
-1. String
-2. Integer/int
-3. Long/long
-4. Short/short
-5. Float/float
-6. Double/double
-7. Boolean/boolean
-8. Date
-9. LocalDate
-10. LocalDateTime
-11. LocalTime
+- String
+- Integer/int
+- Long/long
+- Short/short
+- Float/float
+- Double/double
+- Boolean/boolean
+- Date
+- LocalDate
+- LocalDateTime
+- LocalTime
 ### Custom converter
 If you like to parse cell to type Faxel does not support out of the box, you may create your own converter by implementing Converter interface:
 ```
