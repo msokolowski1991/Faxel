@@ -6,28 +6,32 @@ By annotating your java classes, You can define how an excel should be represent
 First of all, we need our java classes. Imagine a simple excel containing people. We can annotate it like this:
 ```
 class PersonDataExcel {
-    @SheetRows(sheetName = "Person", firstDataRow = 2)
+    @ExcelSheet(sheetName = "Person", start = 1, end = Integer.MAX_VALUE, arrangement = DataArrangementType.ROW)
     private Collection<Person> people;
 }
 
 public class Person {
-    @Column(index = 0)
+    @Cell(index = 0)
     private String firstName;
 
-    @Column(index = 1)
+    @Cell(index = 1)
     private String lastName;
 }
 ```
+As you can see, first we've annotated a collection of Person as @ExcelSheet. This means that sheet named "Person", starting from position 1 to Integer.MAX_VALUE, will be parsed row by row. The start should be less than end. The arrangement could be one of ROW or COLUMN.
 ### Parsing excel
 Next step is to actually parse our excel to previously defined Java model. First we need to create ModelDefinition from our class.
 ```
-    InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx")
     ModelDefinition model = ModelDefinitionFactory.get().create(PersonDataExcel.class)
 ```
 This model can be reused as many times as you need. Next step is to actually fill instance of our model using an excel source.
 ```
-    model.fill(WorkbookFactory.create(excelStream), new PersonDataExcel())
+    InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx")
+    SourceExcel source = SourceFactory.get().create(excelStream)
+    model.fill(source, new PersonDataExcel())
 ```
+A SourceExcel class is abstraction over actual parsing library implementation.
+You can obtain it using SourceFactory which will determine your runtime parsing library. For now only Apache Poi is supported but more will come soon in next releases.
 And that's it! We successfully parsed an entire excel!
 ## Types
 ### Built in types support
@@ -50,5 +54,5 @@ If you like to parse cell to type Faxel does not support out of the box, you may
 ```
 Then use it in @Cell annotation
 ```
-    @Column(index = 5, converter = CustomBigDecimalConverter.class)
+    @Cell(index = 5, converter = CustomBigDecimalConverter.class)
 ```
