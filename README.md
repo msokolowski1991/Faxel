@@ -22,13 +22,13 @@ As you can see, first we've annotated a collection of Person as @ExcelSheet. Thi
 ### Parsing excel
 Next step is to actually parse our excel to previously defined Java model. First we need to create ModelDefinition from our class.
 ```
-    ModelDefinition model = ModelDefinitionFactory.get().create(PersonDataExcel.class)
+    ModelDefinition model = ModelDefinitionFactory.get().create(PersonDataExcel.class);
 ```
 This model can be reused as many times as you need. Next step is to actually fill instance of our model using an excel source.
 ```
-    InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx")
-    SourceExcel source = SourceFactory.get().create(excelStream)
-    model.fill(source, new PersonDataExcel())
+    InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx");
+    SourceExcel source = SourceFactory.get().create(excelStream);
+    model.fill(source, new PersonDataExcel());
 ```
 A SourceExcel class is abstraction over actual parsing library implementation.
 You can obtain it using SourceFactory which will determine your runtime parsing library. For now only Apache Poi is supported but more will come soon in next releases.
