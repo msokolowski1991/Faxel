@@ -2,6 +2,7 @@ package faxel.source;
 
 import java.io.InputStream;
 
+import faxel.source.poi.ApachePoiSource;
 
 public abstract class SourceFactory {
 
