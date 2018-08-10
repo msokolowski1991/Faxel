@@ -1,5 +1,6 @@
 package faxel.model;
 
+import static java.lang.String.format;
 import static java.util.stream.StreamSupport.stream;
 
 import java.lang.reflect.Field;
@@ -24,10 +25,19 @@ final class SheetDefinition {
     private final Collection<CellDefinition> cellDefinitions;
 
     SheetDefinition(ExcelSheet sheetMetadata, Field modelsCollection, Class<?> rowType, Collection<CellDefinition> cellDefinitions) {
+        assertMetadata(sheetMetadata);
         this.sheetMetadata = sheetMetadata;
         this.modelsCollection = modelsCollection;
         this.rowType = rowType;
         this.cellDefinitions = cellDefinitions;
+    }
+
+    private void assertMetadata(ExcelSheet sheetMetadata) {
+        if (sheetMetadata.start() > sheetMetadata.max()) {
+            throw new IllegalArgumentException(
+                    format("Could not create SheetDefinition of %s ExcelSheet.start can not be greater than ExcelSheet.max", sheetMetadata.sheetName())
+            );
+        }
     }
 
     void fill(SourceExcel source, Object destination) {
