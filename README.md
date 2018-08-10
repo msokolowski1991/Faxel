@@ -31,8 +31,10 @@ This model can be reused as many times as you need. Next step is to actually fil
     model.fill(source, new PersonDataExcel());
 ```
 A SourceExcel class is abstraction over actual parsing library implementation.
-You can obtain it using SourceFactory which will determine your runtime parsing library. For now only Apache Poi is supported but more will come soon in next releases.
-And that's it! We successfully parsed an entire excel!
+You can obtain it using SourceFactory which will determine your runtime parsing library or create directly.
+For now only faxel.poi.ApachePoiSource is supported but more will come soon in next releases.
+
+That's it! We successfully parsed an entire excel!
 ## Types
 ### Built in types support
 By default Faxel support following types:
