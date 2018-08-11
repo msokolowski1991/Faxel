@@ -6,6 +6,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import faxel.source.SourceExcel;
 import faxel.source.SourceSheet;
 
+/**
+ * The Apache POI SourceExcel implementation.
+ * To use this implementation you need to provide apache poi 3.x or later dependency.
+ */
 public class ApachePoiSource implements SourceExcel {
 
     private final Workbook workbook;
