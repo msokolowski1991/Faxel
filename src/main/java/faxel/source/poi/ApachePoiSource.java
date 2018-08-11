@@ -21,4 +21,14 @@ public class ApachePoiSource implements SourceExcel {
         return new ApachePoiSheet(sheet);
     }
 
+    @Override
+    public SourceSheet sheetOf(int index) {
+        if (index < 0) {
+            throw new IllegalArgumentException("Index should be >= 0");
+        }
+
+        final Sheet sheet = workbook.getSheetAt(index);
+        return new ApachePoiSheet(sheet);
+    }
+
 }

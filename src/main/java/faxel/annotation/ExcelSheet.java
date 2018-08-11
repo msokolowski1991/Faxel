@@ -5,6 +5,7 @@ import java.lang.annotation.*;
 /**
  * Annotation used to mark a Collection as ExcelSheet of Workbook.
  * Collection will be then populated with sheet rows.
+ * One of name() or index() must be provided
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
@@ -15,7 +16,13 @@ public @interface ExcelSheet {
      * Name of sheet - source of data of this Collection
      * @return Name of the sheet
      */
-    String sheetName();
+    String name() default "";
+
+    /**
+     * Index of sheet - source of data of this Collection
+     * @return Index of the sheet
+     */
+    int index() default -1;
 
     /**
      * Indicates how to interpret data arrangement in this sheet.
@@ -25,15 +32,17 @@ public @interface ExcelSheet {
     DataArrangementType arrangement() default DataArrangementType.ROW;
 
     /**
-     * Number of row or column to startIndex from parsing. Default is first row.
-     * @return index of first row or column to startIndex processing from.
+     * Number of row or column to startPosition from parsing. Default is first row.
+     * @return index of first row or column to startPosition processing from.
      */
-    int startIndex() default 1;
+    int startPosition() default 1;
 
     /**
-     * Number of maxIndex positioned row or column to parse. Default is Integer.MAX_VALUE.
+     * Number of maxPosition positioned row or column to parse. Default is Integer.MAX_VALUE.
      * If the actual length of data set is greater than this value - it will be ignored.
      * @return index of last row or column to process.
      */
-    int maxIndex() default Integer.MAX_VALUE;
+    int maxPosition() default Integer.MAX_VALUE;
+
+
 }

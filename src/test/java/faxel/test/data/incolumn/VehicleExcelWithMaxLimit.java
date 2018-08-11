@@ -7,7 +7,7 @@ import faxel.annotation.ExcelSheet;
 
 public class VehicleExcelWithMaxLimit {
 
-    @ExcelSheet(sheetName = "VEHICLE", arrangement = DataArrangementType.COLUMN, startIndex = 2, maxIndex = 3)
+    @ExcelSheet(name = "VEHICLE", arrangement = DataArrangementType.COLUMN, startPosition = 2, maxPosition = 3)
     private Collection<Vehicle> vehicles;
 
     public Collection<Vehicle> getVehicles() {

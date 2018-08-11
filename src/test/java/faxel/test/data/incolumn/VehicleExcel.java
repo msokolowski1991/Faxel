@@ -7,7 +7,7 @@ import faxel.annotation.ExcelSheet;
 
 public class VehicleExcel {
 
-    @ExcelSheet(sheetName = "VEHICLE", arrangement = DataArrangementType.COLUMN, startIndex = 2)
+    @ExcelSheet(name = "VEHICLE", arrangement = DataArrangementType.COLUMN, startPosition = 2)
     private Collection<Vehicle> vehicles;
 
     public Collection<Vehicle> getVehicles() {

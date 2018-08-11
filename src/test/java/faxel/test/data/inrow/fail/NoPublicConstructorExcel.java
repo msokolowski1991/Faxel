@@ -5,6 +5,6 @@ import java.util.Collection;
 import faxel.annotation.ExcelSheet;
 
 public class NoPublicConstructorExcel {
-    @ExcelSheet(sheetName = "unknown")
+    @ExcelSheet(name = "unknown")
     private Collection<NoPublicConstructorModel> models;
 }

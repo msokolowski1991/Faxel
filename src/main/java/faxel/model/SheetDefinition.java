@@ -33,15 +33,15 @@ final class SheetDefinition {
     }
 
     private void assertMetadata(ExcelSheet sheetMetadata) {
-        if (sheetMetadata.startIndex() > sheetMetadata.maxIndex()) {
+        if (sheetMetadata.startPosition() > sheetMetadata.maxPosition()) {
             throw new IllegalArgumentException(
-                    format("Could not create SheetDefinition of %s ExcelSheet.startIndex can not be greater than ExcelSheet.maxIndex", sheetMetadata.sheetName())
+                    format("Could not create SheetDefinition of %s ExcelSheet.startPosition can not be greater than ExcelSheet.maxPosition", sheetMetadata)
             );
         }
     }
 
     void fill(SourceExcel source, Object destination) {
-        LOG.trace("Filling Model {} from {} sheet", destination.getClass(), sheetMetadata.sheetName());
+        LOG.trace("Filling Model {} from {} sheet", destination.getClass(), sheetMetadata.name());
 
         final List<Object> rows = cellsStream(source).map(rowData -> {
             Object model = ClassInitializer.createSilently(rowType);
@@ -53,13 +53,25 @@ final class SheetDefinition {
     }
 
     private Stream<SourceCells> cellsStream(SourceExcel source) {
-        final SourceSheet sheet = source.sheetOf(this.sheetMetadata.sheetName());
-        final int firstPosition = sheetMetadata.startIndex() - 1;
-        final int numberOfRowsToParse = sheetMetadata.maxIndex() - sheetMetadata.startIndex() + 1;
+        final SourceSheet sheet = sourceSheetFrom(source);
+        final int firstPosition = sheetMetadata.startPosition() - 1;
+        final int numberOfRowsToParse = sheetMetadata.maxPosition() - sheetMetadata.startPosition() + 1;
         final Iterator<SourceCells> cellsIterator = cellsIterator(sheet);
         return stream(Spliterators.spliteratorUnknownSize(cellsIterator, Spliterator.ORDERED), false)
                 .skip(firstPosition)
                 .limit(numberOfRowsToParse);
+    }
+
+    private SourceSheet sourceSheetFrom(SourceExcel source) {
+        boolean hasName = !"".equals(this.sheetMetadata.name());
+        boolean hasIndex = -1 != this.sheetMetadata.index();
+        if (hasName) {
+            return source.sheetOf(this.sheetMetadata.name());
+        } else if (hasIndex) {
+            return source.sheetOf(this.sheetMetadata.index());
+        } else {
+            throw new IllegalStateException("ExcelSheet must have name or index argument provided.");
+        }
     }
 
     private Iterator<SourceCells> cellsIterator(SourceSheet sheet) {

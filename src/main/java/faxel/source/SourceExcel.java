@@ -10,4 +10,10 @@ public interface SourceExcel {
      * @return Sheet of given name
      */
     SourceSheet sheetOf(String sheetName);
+
+    /**
+     * @param index of the excel sheet
+     * @return Sheet of given index
+     */
+    SourceSheet sheetOf(int index);
 }

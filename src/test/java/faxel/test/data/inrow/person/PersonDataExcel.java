@@ -5,10 +5,10 @@ import java.util.Collection;
 import faxel.annotation.ExcelSheet;
 
 public class PersonDataExcel {
-    @ExcelSheet(sheetName = "Person", startIndex = 2)
+    @ExcelSheet(name = "Person", startPosition = 2)
     private Collection<Person> people;
 
-    @ExcelSheet(sheetName = "Address", startIndex = 2)
+    @ExcelSheet(name = "Address", startPosition = 2)
     private Collection<Address> addresses;
 
     public Collection<Person> getPeople() {

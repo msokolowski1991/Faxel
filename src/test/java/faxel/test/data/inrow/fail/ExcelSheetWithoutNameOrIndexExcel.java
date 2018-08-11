@@ -4,8 +4,8 @@ import java.util.Collection;
 
 import faxel.annotation.ExcelSheet;
 
-public class UnknownTypeExcel {
-    @ExcelSheet(name = "unknown")
+public class ExcelSheetWithoutNameOrIndexExcel {
+    @ExcelSheet()
     private Collection<UnknownTypeModel> models;
 
     public Collection<UnknownTypeModel> getModels() {

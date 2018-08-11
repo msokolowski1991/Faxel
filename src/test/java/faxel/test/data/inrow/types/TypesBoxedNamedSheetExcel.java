@@ -4,15 +4,15 @@ import java.util.Collection;
 
 import faxel.annotation.ExcelSheet;
 
-public class TypesExcelBoxed {
-    @ExcelSheet(sheetName = "types", startIndex = 2)
+public class TypesBoxedNamedSheetExcel {
+    @ExcelSheet(name = "types", startPosition = 2)
     private Collection<TypesBoxed> types;
 
-    public TypesExcelBoxed(Collection<TypesBoxed> types) {
+    public TypesBoxedNamedSheetExcel(Collection<TypesBoxed> types) {
         this.types = types;
     }
 
-    public TypesExcelBoxed() {
+    public TypesBoxedNamedSheetExcel() {
     }
 
     public Collection<TypesBoxed> getTypes() {
