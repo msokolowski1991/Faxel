@@ -5,7 +5,7 @@ import java.util.Collection;
 import faxel.annotation.ExcelSheet;
 
 public class TypesExcelPrimitives {
-    @ExcelSheet(sheetName = "types", start = 2)
+    @ExcelSheet(sheetName = "types", startIndex = 2)
     private Collection<TypesPrimitives> types;
 
     public TypesExcelPrimitives(Collection<TypesPrimitives> types) {

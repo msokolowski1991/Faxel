@@ -18,7 +18,7 @@ public class Person {
     private String lastName;
 }
 ```
-As you can see, first we've annotated a collection of Person as @ExcelSheet. This means that sheet named "Person", starting from position 1 to Integer.MAX_VALUE, will be parsed row by row. The start should be less than end. The arrangement could be one of ROW or COLUMN.
+As you can see, first we've annotated a collection of Person as @ExcelSheet. This means that sheet named "Person", starting from position 1 to Integer.MAX_VALUE, will be parsed row by row. The startIndex should be less than end. The arrangement could be one of ROW or COLUMN.
 ### Parsing excel
 Next step is to actually parse our excel to previously defined Java model. First we need to create ModelDefinition from our class.
 ```

@@ -25,15 +25,15 @@ public @interface ExcelSheet {
     DataArrangementType arrangement() default DataArrangementType.ROW;
 
     /**
-     * Number of row or column to start from parsing. Default is first row.
-     * @return index of first row or column to start processing from.
+     * Number of row or column to startIndex from parsing. Default is first row.
+     * @return index of first row or column to startIndex processing from.
      */
-    int start() default 1;
+    int startIndex() default 1;
 
     /**
-     * Number of max positioned row or column to parse. Default is Integer.MAX_VALUE.
+     * Number of maxIndex positioned row or column to parse. Default is Integer.MAX_VALUE.
      * If the actual length of data set is greater than this value - it will be ignored.
      * @return index of last row or column to process.
      */
-    int max() default Integer.MAX_VALUE;
+    int maxIndex() default Integer.MAX_VALUE;
 }

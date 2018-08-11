@@ -33,9 +33,9 @@ final class SheetDefinition {
     }
 
     private void assertMetadata(ExcelSheet sheetMetadata) {
-        if (sheetMetadata.start() > sheetMetadata.max()) {
+        if (sheetMetadata.startIndex() > sheetMetadata.maxIndex()) {
             throw new IllegalArgumentException(
-                    format("Could not create SheetDefinition of %s ExcelSheet.start can not be greater than ExcelSheet.max", sheetMetadata.sheetName())
+                    format("Could not create SheetDefinition of %s ExcelSheet.startIndex can not be greater than ExcelSheet.maxIndex", sheetMetadata.sheetName())
             );
         }
     }
@@ -54,8 +54,8 @@ final class SheetDefinition {
 
     private Stream<SourceCells> cellsStream(SourceExcel source) {
         final SourceSheet sheet = source.sheetOf(this.sheetMetadata.sheetName());
-        final int firstPosition = sheetMetadata.start() - 1;
-        final int numberOfRowsToParse = sheetMetadata.max() - sheetMetadata.start();
+        final int firstPosition = sheetMetadata.startIndex() - 1;
+        final int numberOfRowsToParse = sheetMetadata.maxIndex() - sheetMetadata.startIndex() + 1;
         final Iterator<SourceCells> cellsIterator = cellsIterator(sheet);
         return stream(Spliterators.spliteratorUnknownSize(cellsIterator, Spliterator.ORDERED), false)
                 .skip(firstPosition)

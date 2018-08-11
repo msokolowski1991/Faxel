@@ -5,7 +5,7 @@ import java.util.Collection;
 import faxel.annotation.ExcelSheet;
 
 public class TypesExcelBoxed {
-    @ExcelSheet(sheetName = "types", start = 2)
+    @ExcelSheet(sheetName = "types", startIndex = 2)
     private Collection<TypesBoxed> types;
 
     public TypesExcelBoxed(Collection<TypesBoxed> types) {
