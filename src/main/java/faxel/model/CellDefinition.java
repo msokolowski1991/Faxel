@@ -59,7 +59,8 @@ abstract class CellDefinition {
     void fill(Object SourceRowModel, SourceCells sourceCellsData) {
         LOG.trace("Filling {} with column {}", SourceRowModel, cellMetadata);
         final SourceCell cell = sourceCellsData.cellAt(cellMetadata.index());
-        Try.silently(() -> modelFieldDefinition.set(SourceRowModel, getValue(cell)));
+        final Object value = getValue(cell);
+        Try.silently(() -> modelFieldDefinition.set(SourceRowModel, value));
     }
 
     protected abstract Object getValue(SourceCell cell);
