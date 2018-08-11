@@ -6,7 +6,7 @@ By annotating your java classes, You can define how an excel should be represent
 First of all, we need our java classes. Imagine a simple excel containing people. We can annotate it like this:
 ```
 class PersonDataExcel {
-    @ExcelSheet(sheetName = "Person", start = 1, end = Integer.MAX_VALUE, arrangement = DataArrangementType.ROW)
+    @ExcelSheet(sheetName = "Person", startPosition = 1, maxPosition = Integer.MAX_VALUE, arrangement = DataArrangementType.ROW)
     private Collection<Person> people;
 }
 
@@ -18,7 +18,7 @@ public class Person {
     private String lastName;
 }
 ```
-As you can see, first we've annotated a collection of Person as @ExcelSheet. This means that sheet named "Person", starting from position 1 to Integer.MAX_VALUE, will be parsed row by row. The startPosition should be less than end. The arrangement could be one of ROW or COLUMN.
+As you can see, first we've annotated a collection of Person as @ExcelSheet. This means that sheet named "Person", starting from position 1 to Integer.MAX_VALUE, will be parsed row by row. The startPosition should be less than maxPosition. The arrangement could be one of ROW or COLUMN.
 ### Parsing excel
 Next step is to actually parse our excel to previously defined Java model. First we need to create ModelDefinition from our class.
 ```
