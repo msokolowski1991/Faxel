@@ -15,7 +15,12 @@ import faxel.annotation.Cell;
 import faxel.annotation.ExcelSheet;
 
 /**
- * ModelDefinition objects Factory
+ * ModelDefinition objects Factory.
+ * Example usage:
+ * <pre>
+ * ModelDefinitionFactory factory = ModelDefinitionFactory.get()
+ * ModelDefinition model = factory.create(PersonDataExcel.class);
+ * </pre>
  */
 public final class ModelDefinitionFactory {
     private static Logger LOG = LoggerFactory.getLogger(ModelDefinitionFactory.class);
