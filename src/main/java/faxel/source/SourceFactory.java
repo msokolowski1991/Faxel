@@ -4,10 +4,18 @@ import java.io.InputStream;
 
 import faxel.source.poi.ApachePoiSource;
 
+/**
+ * SourceExcel factory
+ */
 public abstract class SourceFactory {
 
     private static SourceFactory INSTANCE;
 
+    /**
+     * Returns SourceFactory instance. The instance is created based on runtime parsing library.
+     * For example if an apache poi parser is present in runtime, then ApachePoiSourceFactory will be created.
+     * @return SourceFactory instance
+     */
     public static SourceFactory get() {
         if (INSTANCE == null) {
             if (hasClass("org.apache.poi.ss.usermodel.Workbook")) {
@@ -31,12 +39,12 @@ public abstract class SourceFactory {
     private static SourceFactory apachePoiImpl() {
         return new SourceFactory() {
             @Override
-            public SourceExcel create(InputStream sourceStream) {
-                if (sourceStream == null) {
+            public SourceExcel create(InputStream inputStream) {
+                if (inputStream == null) {
                     throw new IllegalArgumentException("sourceStream param could not be null");
                 }
                 try {
-                    return new ApachePoiSource(org.apache.poi.ss.usermodel.WorkbookFactory.create(sourceStream));
+                    return new ApachePoiSource(org.apache.poi.ss.usermodel.WorkbookFactory.create(inputStream));
                 } catch (Throwable e) {
                     throw new IllegalStateException("Could not open excel", e);
                 }
@@ -44,5 +52,10 @@ public abstract class SourceFactory {
         };
     }
 
-    public abstract SourceExcel create(InputStream is);
+    /**
+     * Create SourceExcel from given InputStream. Must point to a valid excel document.
+     * @param inputStream of the source excel
+     * @return new SourceExcel created from given inputStream
+     */
+    public abstract SourceExcel create(InputStream inputStream);
 }

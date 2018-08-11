@@ -1,5 +1,8 @@
 package faxel.annotation;
 
+/**
+ * Determine the way data is arranged in a sheet.
+ */
 public enum DataArrangementType {
     /**
      * Data is arranged in rows.
