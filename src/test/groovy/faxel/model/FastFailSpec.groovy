@@ -1,5 +1,6 @@
 package faxel.model
 
+import faxel.FaxelException
 import faxel.source.SourceFactory
 import faxel.test.data.inrow.fail.NoPublicConstructorExcel
 import faxel.test.data.inrow.fail.UnknownTypeExcel
@@ -15,7 +16,7 @@ class FastFailSpec extends Specification {
         when: "Parser parse source excel"
           model.fill(SourceFactory.get().create(excelStream), new UnknownTypeExcel())
         then: "Should fast fail and throw an exception"
-          thrown(IllegalArgumentException)
+          thrown(FaxelException)
     }
 
     def "Should fast fail on no public constructor in model"() {
@@ -25,7 +26,7 @@ class FastFailSpec extends Specification {
         when: "Parser parse source excel"
           model.fill(SourceFactory.get().create(excelStream), new NoPublicConstructorExcel())
         then: "Should fast fail and throw an exception"
-          thrown(IllegalArgumentException)
+          thrown(FaxelException)
     }
 
     def "Should fast fail when @ExcelSheet has no name or index"() {
@@ -35,6 +36,6 @@ class FastFailSpec extends Specification {
         when: "Parser parse source excel"
           model.fill(SourceFactory.get().create(excelStream), new ExcelSheetWithoutNameOrIndexExcel())
         then: "Should fast fail and throw an exception"
-          thrown(IllegalStateException)
+          thrown(FaxelException)
     }
 }
