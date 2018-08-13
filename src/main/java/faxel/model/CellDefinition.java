@@ -60,7 +60,10 @@ abstract class CellDefinition {
         LOG.trace("Filling {} with column {}", SourceRowModel, cellMetadata);
         final SourceCell cell = sourceCellsData.cellAt(cellMetadata.index());
         final Object value = getValue(cell);
-        Try.silently(() -> modelFieldDefinition.set(SourceRowModel, value));
+        Try.onFailureThrowRuntimeException(
+                () -> modelFieldDefinition.set(SourceRowModel, value),
+                "Could not set value of one of %s fields: %s", cellMetadata, modelFieldDefinition.getName()
+        );
     }
 
     protected abstract Object getValue(SourceCell cell);

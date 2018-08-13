@@ -41,7 +41,7 @@ final class SheetDefinition {
     }
 
     void fill(SourceExcel source, Object destination) {
-        LOG.trace("Filling Model {} from {} sheet", destination.getClass(), sheetMetadata.name());
+        LOG.trace("Filling Model {} from {} sheet", destination.getClass(), sheetMetadata);
 
         final List<Object> rows = cellsStream(source).map(rowData -> {
             Object model = ClassInitializer.createSilently(rowType);
@@ -49,7 +49,10 @@ final class SheetDefinition {
             return model;
         }).collect(Collectors.toList());
 
-        Try.silently(() -> modelsCollection.set(destination, rows));
+        Try.onFailureThrowRuntimeException(
+                () -> modelsCollection.set(destination, rows),
+                "Could not set value of one of %s fields: %s", sheetMetadata, modelsCollection.getName()
+        );
     }
 
     private Stream<SourceCells> cellsStream(SourceExcel source) {
