@@ -6,14 +6,6 @@ import org.slf4j.LoggerFactory;
 class Try {
     private static Logger LOG = LoggerFactory.getLogger(SheetDefinition.class);
 
-    static void silently(Tryable r) {
-        try {
-            r.tryRun();
-        } catch (Throwable cause) {
-            LOG.error("Failed to execute Try {}", cause);
-        }
-    }
-
     static void onFailureThrowRuntimeException(Tryable r, String message, Object ... args) {
         try {
             r.tryRun();
