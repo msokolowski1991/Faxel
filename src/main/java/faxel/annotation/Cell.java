@@ -2,6 +2,7 @@ package faxel.annotation;
 
 import java.lang.annotation.*;
 
+import faxel.FaxelException;
 import faxel.converter.ColumnConverter;
 import faxel.source.SourceCell;
 
@@ -29,7 +30,7 @@ public @interface Cell {
 
         @Override
         public Object convert(SourceCell cell) {
-            throw new IllegalArgumentException(
+            throw new FaxelException(
                     String.format("Could not extract value from %s. Unknown Type. Try to implement own Converter", cell)
             );
         }

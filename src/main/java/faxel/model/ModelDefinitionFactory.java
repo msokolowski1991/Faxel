@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import faxel.FaxelException;
 import faxel.annotation.Cell;
 import faxel.annotation.ExcelSheet;
 
@@ -61,7 +62,7 @@ public final class ModelDefinitionFactory {
             if (fieldType.isAssignableFrom(Collection.class)) {
                 return createSheetDefinition(sheetFieldCandidate, sheetMetadata);
             } else {
-                throw new IllegalArgumentException("ExcelSheet annotation must be placed on Collection!");
+                throw new FaxelException("Error on %s field. ExcelSheet annotation must be placed on Collection!", sheetFieldCandidate.getName());
             }
         } else {
             LOG.trace("Field {} is not recognized as sheet field. Skipping", sheetFieldCandidate);
