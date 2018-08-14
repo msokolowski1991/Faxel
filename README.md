@@ -24,15 +24,25 @@ Next step is to actually parse our excel to previously defined Java model. First
 ```
     ModelDefinition model = ModelDefinitionFactory.get().create(PersonDataExcel.class);
 ```
-This model can be reused as many times as you need. Next step is to actually fill instance of our model using an excel source.
+This model can be reused as many times as you need. Next step is to get an excel source
 ```
+    // Using SourceFactory which detects our runtime parsing library
     InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx");
     SourceExcel source = SourceFactory.get().create(excelStream);
-    PersonDataExcel result = model.fill(source, new PersonDataExcel());
+    // OR directly point to ExcelSource implementation
+    InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx");
+    Workbook workbook = WorkbookFactory.create(excelStream)
+    SourceExcel source = new ApachePoi3Source(workbook);
 ```
 A SourceExcel class is abstraction over actual parsing library implementation.
-You can obtain it using SourceFactory which will determine your runtime parsing library or create directly.
-For now faxel.poi.ApachePoi3Source which supports Apache POI 3.(6+) is the only one implementation but more will come soon in next releases.
+You can obtain it using SourceFactory which will determine your runtime parsing library or create it directly.
+For now faxel.apache.poi.ApachePoi3Source which supports Apache POI 3.(6+) is the only one implementation but more will come soon in next releases.
+
+Then finally we can fill our model using SourceExcel
+```
+    PersonDataExcel result = model.fill(source, new PersonDataExcel());
+```
+The result model is actually the same as argument so you can ignore result and use argument reference.
 
 That's it! We successfully parsed an entire excel!
 ## Types
