@@ -61,12 +61,13 @@ class ApachePoiSheet implements SourceSheet {
         private ColumnIterator() {
             this.lastCell = stream(Spliterators.spliteratorUnknownSize(sheet.rowIterator(), Spliterator.ORDERED), false)
                     .max(Comparator.comparing(Row::getLastCellNum))
-                    .map(r -> (int) r.getLastCellNum()).orElse(0);
+                    .map(r -> (int) r.getLastCellNum())
+                    .orElse(-1);
         }
 
         @Override
         public boolean hasNext() {
-            return currentCell < lastCell;
+            return currentCell <= lastCell;
         }
 
         @Override

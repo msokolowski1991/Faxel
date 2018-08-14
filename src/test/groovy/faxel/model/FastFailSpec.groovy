@@ -2,40 +2,29 @@ package faxel.model
 
 import faxel.FaxelException
 import faxel.source.SourceFactory
-import faxel.test.data.inrow.fail.NoPublicConstructorExcel
-import faxel.test.data.inrow.fail.UnknownTypeExcel
-import faxel.test.data.inrow.fail.ExcelSheetWithoutNameOrIndexExcel
+import faxel.test.data.inrow.fail.*
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class FastFailSpec extends Specification {
 
-    def "Should fast fail on unknown type"() {
-        given: "Default model"
-          def excelStream = getClass().getResourceAsStream("/fast-fail.xlsx")
-          def model = ModelDefinitionFactory.get().create(UnknownTypeExcel)
-        when: "Parser parse source excel"
-          model.fill(SourceFactory.get().create(excelStream), new UnknownTypeExcel())
-        then: "Should fast fail and throw an exception"
-          thrown(FaxelException)
-    }
 
-    def "Should fast fail on no public constructor in model"() {
-        given: "Default model"
+    @Unroll
+    def "Should fast fail on #description"(Object model, String description) {
+        given: "Default modelDefinition"
           def excelStream = getClass().getResourceAsStream("/fast-fail.xlsx")
-          def model = ModelDefinitionFactory.get().create(NoPublicConstructorExcel)
+          def modelDefinition = ModelDefinitionFactory.get().create(model.class)
         when: "Parser parse source excel"
-          model.fill(SourceFactory.get().create(excelStream), new NoPublicConstructorExcel())
+          modelDefinition.fill(SourceFactory.get().create(excelStream), model)
         then: "Should fast fail and throw an exception"
           thrown(FaxelException)
-    }
-
-    def "Should fast fail when @ExcelSheet has no name or index"() {
-        given: "Default model"
-          def excelStream = getClass().getResourceAsStream("/fast-fail.xlsx")
-          def model = ModelDefinitionFactory.get().create(ExcelSheetWithoutNameOrIndexExcel)
-        when: "Parser parse source excel"
-          model.fill(SourceFactory.get().create(excelStream), new ExcelSheetWithoutNameOrIndexExcel())
-        then: "Should fast fail and throw an exception"
-          thrown(FaxelException)
+        where:
+          model                                   | description
+          new UnknownTypeExcel()                  | "Unknown cell type"
+          new WrongTypeExcel()                    | "Wrong cell type"
+          new UnknownSheetNameExcel()             | "Unknown sheet name"
+          new UnknownSheetIndexExcel()            | "Unknown sheet index"
+          new ExcelSheetWithoutNameOrIndexExcel() | "ExcelSheet without name or index"
+          new NoPublicConstructorExcel()          | "No public argument constructor in model"
     }
 }

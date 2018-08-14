@@ -3,6 +3,7 @@ package faxel.source.apache.poi3;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 
+import faxel.FaxelException;
 import faxel.source.SourceCell;
 import faxel.source.SourceCells;
 
@@ -25,6 +26,9 @@ class ApachePoiColumnCells implements SourceCells {
     @Override
     public SourceCell cellAt(int rowIndex) {
         final Cell cell = sheet.getRow(rowIndex).getCell(columnIndex);
+        if (cell == null) {
+            throw new FaxelException("Cell at %d index does not exists", columnIndex);
+        }
         if (cellTemplate == null) {
             return cellTemplate = new ApachePoiCell(cell);
         } else {
