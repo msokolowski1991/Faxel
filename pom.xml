@@ -47,16 +47,22 @@
     </distributionManagement>
 
     <properties>
+        <!-- BUILD -->
+        <encoding>UTF-8</encoding>
+        <maven.compiler.source>1.${maven-compiler-java-version}</maven.compiler.source>
+        <maven.compiler.target>1.${maven-compiler-java-version}</maven.compiler.target>
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven-javadoc-source-plugin.version>3.0.1</maven-javadoc-source-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
+        <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
+        <maven-compiler-java-version>8</maven-compiler-java-version>
+
+        <!-- DEPENDENCIES -->
         <poi.version>3.6</poi.version>
         <spock-core.version>1.1-groovy-2.4</spock-core.version>
         <groovy-all.version>2.4.15</groovy-all.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <logback-classic.version>1.1.7</logback-classic.version>
-
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <encoding>UTF-8</encoding>
     </properties>
 
     <dependencies>
@@ -98,7 +104,7 @@
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
-                <version>1.5</version>
+                <version>${maven-gpg-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -113,7 +119,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>8</source>
+                    <source>${maven-compiler-java-version}</source>
                     <target>8</target>
                 </configuration>
             </plugin>
@@ -122,6 +128,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-source-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -134,6 +141,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-javadoc-source-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -146,7 +154,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
+                <version>${maven-gpg-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -160,7 +168,7 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
+                <version>${nexus-staging-maven-plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
