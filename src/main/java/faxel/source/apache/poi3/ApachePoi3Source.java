@@ -1,4 +1,4 @@
-package faxel.source.poi;
+package faxel.source.apache.poi3;
 
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -10,11 +10,11 @@ import faxel.source.SourceSheet;
  * The Apache POI SourceExcel implementation.
  * To use this implementation you need to provide apache poi 3.x or later dependency.
  */
-public class ApachePoiSource implements SourceExcel {
+public class ApachePoi3Source implements SourceExcel {
 
     private final Workbook workbook;
 
-    public ApachePoiSource(Workbook workbook) {this.workbook = workbook;}
+    public ApachePoi3Source(Workbook workbook) {this.workbook = workbook;}
 
     @Override
     public SourceSheet sheetOf(String sheetName) {

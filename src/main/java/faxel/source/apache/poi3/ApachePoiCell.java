@@ -1,4 +1,4 @@
-package faxel.source.poi;
+package faxel.source.apache.poi3;
 
 import java.util.Date;
 
@@ -19,7 +19,11 @@ class ApachePoiCell implements SourceCell {
 
     @Override
     public String stringValue() {
-        return cell.getStringCellValue();
+        if (cell.getCellType() == Cell.CELL_TYPE_STRING || cell.getCellType() == Cell.CELL_TYPE_BLANK) {
+            return cell.getStringCellValue();
+        } else {
+            return null;
+        }
     }
 
     @Override

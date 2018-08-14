@@ -1,4 +1,4 @@
-package faxel.source.poi;
+package faxel.source.apache.poi3;
 
 import static java.util.stream.StreamSupport.stream;
 

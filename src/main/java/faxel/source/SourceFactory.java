@@ -2,7 +2,7 @@ package faxel.source;
 
 import java.io.InputStream;
 
-import faxel.source.poi.ApachePoiSource;
+import faxel.source.apache.poi3.ApachePoi3Source;
 
 /**
  * SourceExcel factory
@@ -44,7 +44,7 @@ public abstract class SourceFactory {
                     throw new IllegalArgumentException("sourceStream param could not be null");
                 }
                 try {
-                    return new ApachePoiSource(org.apache.poi.ss.usermodel.WorkbookFactory.create(inputStream));
+                    return new ApachePoi3Source(org.apache.poi.ss.usermodel.WorkbookFactory.create(inputStream));
                 } catch (Throwable e) {
                     throw new IllegalStateException("Could not open excel", e);
                 }
