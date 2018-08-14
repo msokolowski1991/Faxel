@@ -20,11 +20,11 @@ final class DefaultModelDefinition<DEST> implements ModelDefinition<DEST> {
     @Override
     public DEST fill(SourceExcel source, DEST destination) {
         if (source == null) {
-            throw new IllegalArgumentException("Source param can not be null");
+            throw new IllegalArgumentException("Source parameter can not be null");
         }
 
         if (destination == null) {
-            throw new IllegalArgumentException("Destination param can not be null");
+            throw new IllegalArgumentException("Destination parameter can not be null");
         }
 
         LOG.trace("Filling Model {}", destination.getClass());

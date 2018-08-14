@@ -1,6 +1,5 @@
 package faxel.model;
 
-import static java.lang.String.format;
 import static java.util.stream.StreamSupport.stream;
 
 import java.lang.reflect.Field;
@@ -11,6 +10,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import faxel.FaxelException;
 import faxel.annotation.ExcelSheet;
 import faxel.source.SourceCells;
 import faxel.source.SourceExcel;
@@ -34,14 +34,14 @@ final class SheetDefinition {
 
     private void assertMetadata(ExcelSheet sheetMetadata) {
         if (sheetMetadata.startPosition() > sheetMetadata.maxPosition()) {
-            throw new IllegalArgumentException(
-                    format("Could not create SheetDefinition of %s ExcelSheet.startPosition can not be greater than ExcelSheet.maxPosition", sheetMetadata)
+            throw new FaxelException(
+                    "Could not create SheetDefinition of %s ExcelSheet.startPosition can not be greater than ExcelSheet.maxPosition", sheetMetadata
             );
         }
     }
 
     void fill(SourceExcel source, Object destination) {
-        LOG.trace("Filling Model {} from {} sheet", destination.getClass(), sheetMetadata.name());
+        LOG.trace("Filling Model {} from {} sheet", destination.getClass(), sheetMetadata);
 
         final List<Object> rows = cellsStream(source).map(rowData -> {
             Object model = ClassInitializer.createSilently(rowType);
@@ -49,7 +49,10 @@ final class SheetDefinition {
             return model;
         }).collect(Collectors.toList());
 
-        Try.silently(() -> modelsCollection.set(destination, rows));
+        Try.onFailureThrowRuntimeException(
+                () -> modelsCollection.set(destination, rows),
+                "Could not set value of one of %s fields: %s", sheetMetadata, modelsCollection.getName()
+        );
     }
 
     private Stream<SourceCells> cellsStream(SourceExcel source) {
@@ -70,7 +73,7 @@ final class SheetDefinition {
         } else if (hasIndex) {
             return source.sheetOf(this.sheetMetadata.index());
         } else {
-            throw new IllegalStateException("ExcelSheet must have name or index argument provided.");
+            throw new FaxelException("ExcelSheet must have name or index argument provided.");
         }
     }
 
