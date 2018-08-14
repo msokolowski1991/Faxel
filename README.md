@@ -2,7 +2,9 @@
 Faxel is an excel to java object mapper library.
 By annotating your java classes, You can define how an excel should be represented in Java world. Thank's to faxel you no longer need to manually parse excel to Java!
 ## Example usage
-### Java class model
+This section will guide through simple example of how to use Faxel.
+
+#### Java class model
 First of all, we need our java classes. Imagine a simple excel containing people. We can annotate it like this:
 ```
 class PersonDataExcel {
@@ -19,26 +21,31 @@ public class Person {
 }
 ```
 As you can see, first we've annotated a collection of Person as @ExcelSheet. This means that sheet named "Person", starting from position 1 to Integer.MAX_VALUE, will be parsed row by row. The startPosition should be less than maxPosition. The arrangement could be one of ROW or COLUMN.
-### Parsing excel
+
+#### Model Definition
 Next step is to actually parse our excel to previously defined Java model. First we need to create ModelDefinition from our class.
 ```
     ModelDefinition model = ModelDefinitionFactory.get().create(PersonDataExcel.class);
 ```
-This model can be reused as many times as you need. Next step is to get an excel source
+This model can be reused as many times as you need. Next step is to get a SourceExcel.
+
+#### SourceExcel
+A SourceExcel class is abstraction over actual parsing library implementation.
+You can obtain it using SourceFactory which will determine your runtime parsing library:
 ```
-    // Using SourceFactory which detects our runtime parsing library
     InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx");
     SourceExcel source = SourceFactory.get().create(excelStream);
-    // OR directly point to ExcelSource implementation
+```
+or create it directly:
+```
     InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx");
     Workbook workbook = WorkbookFactory.create(excelStream)
     SourceExcel source = new ApachePoi3Source(workbook);
 ```
-A SourceExcel class is abstraction over actual parsing library implementation.
-You can obtain it using SourceFactory which will determine your runtime parsing library or create it directly.
 For now faxel.apache.poi.ApachePoi3Source which supports Apache POI 3.(6+) is the only one implementation but more will come soon in next releases.
 
-Then finally we can fill our model using SourceExcel
+#### Parsing excel
+Then finally we can fill our model using SourceExcel. The source is used by previously created ModelDefinition to actually parse an excel:
 ```
     PersonDataExcel result = model.fill(source, new PersonDataExcel());
 ```
@@ -70,5 +77,6 @@ Then use it in @Cell annotation
 ```
 ## Release info
 Release Candidate 3
+Faxel will be available on maven central soon.
 # Contact
 You may contact me at: michal.sokolowski@falcon.net.pl
