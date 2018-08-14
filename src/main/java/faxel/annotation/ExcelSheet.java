@@ -8,10 +8,8 @@ import java.lang.annotation.*;
  * One of  {@link #name() name} or {@link #index() index}  must be provided.<br>
  * Example usage:
  * <pre>
- * {@code
- * @ExcelSheet(sheetName = "Person", startPosition = 1, maxPosition = 100, arrangement = DataArrangementType.ROW)
- * private Collection<Person> people;
- * }
+ * {@code @ExcelSheet(sheetName = "Person", startPosition = 1, maxPosition = 100, arrangement = DataArrangementType.ROW)}
+ * {@code private Collection<Person> people;}
  * </pre>
  */
 @Retention(RetentionPolicy.RUNTIME)

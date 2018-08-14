@@ -7,7 +7,6 @@ import faxel.source.SourceExcel;
  * Represents Metadata about Destination class type. <br>
  * Example usage:
  * <pre>
- * {@code
  *  // Create model from factory
  *  ModelDefinition definition = ModelDefinitionFactory.get().create(PersonDataExcel.class);
  *
@@ -17,7 +16,6 @@ import faxel.source.SourceExcel;
  *
  *  // Fill the model using definition
  *  definition.fill(source, new PersonDataExcel());
- *  }
  * </pre>
  * @param <DEST> Destination class type.
  */

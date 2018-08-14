@@ -19,10 +19,8 @@ import faxel.annotation.ExcelSheet;
  * ModelDefinition objects Factory. <br>
  * Example usage:
  * <pre>
- * {@code
  * ModelDefinitionFactory factory = ModelDefinitionFactory.get()
  * ModelDefinition model = factory.create(PersonDataExcel.class);
- * }
  * </pre>
  */
 public final class ModelDefinitionFactory {

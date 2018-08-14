@@ -8,10 +8,8 @@ import faxel.source.apache.poi.ApachePoi3Source;
  * SourceExcel factory. Simplifies SourceFactory creation. <br>
  * Example usage:
  * <pre>
- * {@code
  * InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx");
  * SourceExcel source = SourceFactory.get().create(excelStream);
- * }
  * </pre>
  */
 public abstract class SourceFactory {

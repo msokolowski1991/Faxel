@@ -4,10 +4,8 @@ package faxel.annotation;
  * Determine the way data is arranged in a sheet. Used in ExelSheet.<br>
  * Example usage:
  * <pre>
- * {@code
- * @ExcelSheet(sheetName = "Person"arrangement = DataArrangementType.ROW)
- * private Collection<Person> people;
- * }
+ * {@code @ExcelSheet(sheetName = "Person"arrangement = DataArrangementType.ROW) }
+ * {@code private Collection<Person> people;}
  * </pre>
  */
 public enum DataArrangementType {
