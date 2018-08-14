@@ -6,7 +6,7 @@
 
     <groupId>pl.net.falcon</groupId>
     <artifactId>faxel</artifactId>
-    <version>1.0.0-RC3</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>Faxel</name>
