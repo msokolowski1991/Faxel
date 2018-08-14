@@ -31,7 +31,7 @@ public @interface Cell {
         @Override
         public Object convert(SourceCell cell) {
             throw new FaxelException(
-                    String.format("Could not extract value from %s. Unknown Type. Try to implement own Converter", cell)
+                    "Could not extract value from %s. Unknown Type. Please implement your own %s", cell, ColumnConverter.class.getName()
             );
         }
     }

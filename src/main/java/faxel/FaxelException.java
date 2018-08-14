@@ -5,7 +5,7 @@ public class FaxelException extends RuntimeException {
         super(message, cause);
     }
 
-    public FaxelException(Throwable cause, String message, Object args) {
+    public FaxelException(Throwable cause, String message, Object ... args) {
         super(String.format(message, args), cause);
     }
 
@@ -13,7 +13,7 @@ public class FaxelException extends RuntimeException {
         super(message);
     }
 
-    public FaxelException(String message, Object args) {
+    public FaxelException(String message, Object ... args) {
         super(String.format(message, args));
     }
 }
