@@ -5,7 +5,14 @@ import java.lang.annotation.*;
 /**
  * Annotation used to mark a Collection as ExcelSheet of Workbook.
  * Collection will be then populated with sheet rows.
- * One of  {@link #name() name} or {@link #index() index}  must be provided.
+ * One of  {@link #name() name} or {@link #index() index}  must be provided.<br />
+ * Example usage:
+ * <pre>
+ * {@code
+ * @ExcelSheet(sheetName = "Person", startPosition = 1, maxPosition = 100, arrangement = DataArrangementType.ROW)
+ * private Collection<Person> people;
+ * }
+ * </pre>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

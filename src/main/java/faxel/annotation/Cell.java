@@ -7,7 +7,14 @@ import faxel.converter.ColumnConverter;
 import faxel.source.SourceCell;
 
 /**
- * Annotation used to mark a field of a class as column representation
+ * Annotation used to mark a field of a class as column representation. <br />
+ * Example usage:
+ * <pre>
+ * {@code
+ *      @Cell(index = 0)
+ *      private String firstName;
+ * }
+ * </pre>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

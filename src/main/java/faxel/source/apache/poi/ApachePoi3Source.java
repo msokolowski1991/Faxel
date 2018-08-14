@@ -8,7 +8,7 @@ import faxel.source.SourceExcel;
 import faxel.source.SourceSheet;
 
 /**
- * The Apache POI SourceExcel implementation.
+ * The Apache POI 3.(6+) SourceExcel implementation.
  * To use this implementation you need to provide apache poi 3.(6+) or later dependency.
  */
 public class ApachePoi3Source implements SourceExcel {
