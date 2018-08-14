@@ -1,4 +1,4 @@
-package faxel.source.apache.poi3;
+package faxel.source.apache.poi;
 
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;

@@ -2,7 +2,7 @@ package faxel.source;
 
 import java.io.InputStream;
 
-import faxel.source.apache.poi3.ApachePoi3Source;
+import faxel.source.apache.poi.ApachePoi3Source;
 
 /**
  * SourceExcel factory
