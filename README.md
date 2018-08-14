@@ -32,7 +32,7 @@ This model can be reused as many times as you need. Next step is to actually fil
 ```
 A SourceExcel class is abstraction over actual parsing library implementation.
 You can obtain it using SourceFactory which will determine your runtime parsing library or create directly.
-For now faxel.poi.ApachePoiSource which supports Apache POI 3.x is the only one implementation but more will come soon in next releases.
+For now faxel.poi.ApachePoi3Source which supports Apache POI 3.(6+) is the only one implementation but more will come soon in next releases.
 
 That's it! We successfully parsed an entire excel!
 ## Types
