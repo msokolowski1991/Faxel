@@ -1,7 +1,7 @@
 package faxel.annotation;
 
 /**
- * Determine the way data is arranged in a sheet. Used in ExelSheet.<br />
+ * Determine the way data is arranged in a sheet. Used in ExelSheet.<br>
  * Example usage:
  * <pre>
  * {@code

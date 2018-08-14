@@ -16,7 +16,7 @@ import faxel.annotation.Cell;
 import faxel.annotation.ExcelSheet;
 
 /**
- * ModelDefinition objects Factory. <br />
+ * ModelDefinition objects Factory. <br>
  * Example usage:
  * <pre>
  * {@code

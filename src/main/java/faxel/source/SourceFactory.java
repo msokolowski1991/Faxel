@@ -5,7 +5,7 @@ import java.io.InputStream;
 import faxel.source.apache.poi.ApachePoi3Source;
 
 /**
- * SourceExcel factory. Simplifies SourceFactory creation. <br />
+ * SourceExcel factory. Simplifies SourceFactory creation. <br>
  * Example usage:
  * <pre>
  * {@code

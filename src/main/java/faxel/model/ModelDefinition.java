@@ -4,7 +4,7 @@ import faxel.source.SourceExcel;
 
 /**
  * ModelDefinition is usually created by ModelDefinitionFactory.
- * Represents Metadata about Destination class type. <br />
+ * Represents Metadata about Destination class type. <br>
  * Example usage:
  * <pre>
  * {@code

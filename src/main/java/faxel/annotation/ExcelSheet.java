@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * Annotation used to mark a Collection as ExcelSheet of Workbook.
  * Collection will be then populated with sheet rows.
- * One of  {@link #name() name} or {@link #index() index}  must be provided.<br />
+ * One of  {@link #name() name} or {@link #index() index}  must be provided.<br>
  * Example usage:
  * <pre>
  * {@code
