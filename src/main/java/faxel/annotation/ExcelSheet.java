@@ -20,7 +20,7 @@ public @interface ExcelSheet {
     String name() default "";
 
     /**
-     * Index of sheet - source of data of this Collection
+     * 0 based index of sheet - source of data of this Collection
      *
      * @return Index of the sheet
      */
@@ -35,14 +35,14 @@ public @interface ExcelSheet {
     DataArrangementType arrangement() default DataArrangementType.ROW;
 
     /**
-     * Index of row or column to startPosition from parsing. Default is first row.
+     * 0 based index of row or column to startPosition from parsing. Default is first row.
      *
      * @return index of first row or column to start processing from.
      */
     int startPosition() default 1;
 
     /**
-     * Index of maxPosition positioned row or column to parse. Default is Integer.MAX_VALUE.
+     * 0 based index of maxPosition positioned row or column to parse. Default is Integer.MAX_VALUE.
      * If the actual length of data set is greater than this value then maxPosition will be ignored.
      *
      * @return index of last row or column to process.

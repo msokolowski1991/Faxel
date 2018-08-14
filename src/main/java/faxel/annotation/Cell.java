@@ -14,7 +14,7 @@ import faxel.source.SourceCell;
 public @interface Cell {
 
     /**
-     * @return index of column in row
+     * @return 0 based index of column or row
      */
     int index();
 

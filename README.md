@@ -28,7 +28,7 @@ This model can be reused as many times as you need. Next step is to actually fil
 ```
     InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx");
     SourceExcel source = SourceFactory.get().create(excelStream);
-    model.fill(source, new PersonDataExcel());
+    PersonDataExcel result = model.fill(source, new PersonDataExcel());
 ```
 A SourceExcel class is abstraction over actual parsing library implementation.
 You can obtain it using SourceFactory which will determine your runtime parsing library or create directly.
