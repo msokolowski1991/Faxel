@@ -84,6 +84,6 @@ Then use it in @Cell annotation
     @Cell(index = 5, converter = CustomBigDecimalConverter.class)
 ```
 ## Release info
-1.0.0
+1.0.1
 # Contact
 You may contact me at: michal.sokolowski@falcon.net.pl

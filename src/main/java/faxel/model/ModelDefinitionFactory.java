@@ -59,7 +59,7 @@ public final class ModelDefinitionFactory {
         if (sheetFieldCandidate.isAnnotationPresent(ExcelSheet.class)) {
             final ExcelSheet sheetMetadata = sheetFieldCandidate.getAnnotation(ExcelSheet.class);
             final Class<?> fieldType = sheetFieldCandidate.getType();
-            if (fieldType.isAssignableFrom(Collection.class)) {
+            if (Collection.class.isAssignableFrom(fieldType)) {
                 return createSheetDefinition(sheetFieldCandidate, sheetMetadata);
             } else {
                 throw new FaxelException("Error on %s field. ExcelSheet annotation must be placed on Collection!", sheetFieldCandidate.getName());

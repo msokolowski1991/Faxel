@@ -20,15 +20,15 @@ final class SheetDefinition {
     private static Logger LOG = LoggerFactory.getLogger(SheetDefinition.class);
 
     private final ExcelSheet sheetMetadata;
-    private final Field modelsCollection;
-    private final Class<?> rowType;
+    private final Field dataCollectionField;
+    private final Class<?> dataClass;
     private final Collection<CellDefinition> cellDefinitions;
 
-    SheetDefinition(ExcelSheet sheetMetadata, Field modelsCollection, Class<?> rowType, Collection<CellDefinition> cellDefinitions) {
+    SheetDefinition(ExcelSheet sheetMetadata, Field dataCollectionField, Class<?> dataClass, Collection<CellDefinition> cellDefinitions) {
         assertMetadata(sheetMetadata);
         this.sheetMetadata = sheetMetadata;
-        this.modelsCollection = modelsCollection;
-        this.rowType = rowType;
+        this.dataCollectionField = dataCollectionField;
+        this.dataClass = dataClass;
         this.cellDefinitions = cellDefinitions;
     }
 
@@ -43,16 +43,34 @@ final class SheetDefinition {
     void fill(SourceExcel source, Object destination) {
         LOG.trace("Filling Model {} from {} sheet", destination.getClass(), sheetMetadata);
 
-        final List<Object> rows = cellsStream(source).map(rowData -> {
-            Object model = ClassInitializer.createSilently(rowType);
+        final Collection<Object> rows = cellsStream(source).map(rowData -> {
+            Object model = ClassInitializer.createSilently(dataClass);
             cellDefinitions.forEach(cellDefinition -> cellDefinition.fill(model, rowData));
             return model;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toCollection(this::supplySheetModelCollection));
 
         Try.onFailureThrowRuntimeException(
-                () -> modelsCollection.set(destination, rows),
-                "Could not set value of one of %s fields: %s", sheetMetadata, modelsCollection.getName()
+                () -> dataCollectionField.set(destination, rows),
+                "Could not set value of one of %s fields: %s", sheetMetadata, dataCollectionField.getName()
         );
+    }
+
+    private <C extends Collection<?>> C supplySheetModelCollection() {
+        final Class<?> modelCollectionClass = dataCollectionField.getType();
+        if (modelCollectionClass.isInterface()) {
+            if (List.class.isAssignableFrom(modelCollectionClass)) {
+                return (C) new ArrayList<>();
+            } else if (Set.class.isAssignableFrom(modelCollectionClass)) {
+                return (C) new HashSet<>();
+            } else if (Collection.class.isAssignableFrom(modelCollectionClass)) {
+                return (C) new ArrayList<>();
+            } else {
+                throw new FaxelException("Can not create model collection instance");
+            }
+        } else {
+            final Object desiredCollection = ClassInitializer.createSilently(modelCollectionClass);
+            return (C) desiredCollection;
+        }
     }
 
     private Stream<SourceCells> cellsStream(SourceExcel source) {
