@@ -59,11 +59,11 @@ final class SheetDefinition {
     private <C extends Collection<?>> C supplySheetModelCollection() {
         final Class<?> modelCollectionClass = dataCollectionField.getType();
         if (modelCollectionClass.isInterface()) {
-            if (List.class.isAssignableFrom(modelCollectionClass)) {
+            if (modelCollectionClass.isAssignableFrom(List.class)) {
                 return (C) new ArrayList<>();
-            } else if (Set.class.isAssignableFrom(modelCollectionClass)) {
+            } else if (modelCollectionClass.isAssignableFrom(Set.class)) {
                 return (C) new HashSet<>();
-            } else if (Collection.class.isAssignableFrom(modelCollectionClass)) {
+            } else if (modelCollectionClass.isAssignableFrom(Collection.class)) {
                 return (C) new ArrayList<>();
             } else {
                 LOG.error("FATAL: Can not create model collection instance of class {}", modelCollectionClass);
