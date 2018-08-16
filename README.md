@@ -1,6 +1,14 @@
 # Faxel
 Faxel is an excel to java object mapper library.
 By annotating your java classes, You can define how an excel should be represented in Java world. Thank's to faxel you no longer need to manually parse excel to Java!
+## Maven Dependency
+```
+<dependency>
+  <groupId>pl.net.falcon</groupId>
+  <artifactId>faxel</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
 ## Example usage
 This section will guide through simple example of how to use Faxel.
 
@@ -76,7 +84,6 @@ Then use it in @Cell annotation
     @Cell(index = 5, converter = CustomBigDecimalConverter.class)
 ```
 ## Release info
-Release Candidate 3
-Faxel will be available on maven central soon.
+1.0.0
 # Contact
 You may contact me at: michal.sokolowski@falcon.net.pl
