@@ -5,7 +5,7 @@ import java.util.Set;
 import faxel.annotation.ExcelSheet;
 
 public class SetExcelSheetExcel {
-    @ExcelSheet(index = 0, startPosition = 2)
+    @ExcelSheet(index = 0)
     private Set<AnyModel> types;
 
     public SetExcelSheetExcel(Set<AnyModel> types) {
