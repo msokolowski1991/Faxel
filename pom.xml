@@ -35,6 +35,8 @@
         <url>https://github.com/msokolowski1991/Faxel</url>
     </scm>
 
+    <url>https://github.com/msokolowski1991/Faxel</url>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
