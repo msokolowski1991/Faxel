@@ -6,7 +6,7 @@ By annotating your java classes, You can define how an excel should be represent
 <dependency>
   <groupId>pl.net.falcon</groupId>
   <artifactId>faxel</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 ## Example usage
