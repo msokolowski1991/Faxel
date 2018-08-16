@@ -55,6 +55,7 @@ final class SheetDefinition {
         );
     }
 
+    @SuppressWarnings("unchecked")
     private <C extends Collection<?>> C supplySheetModelCollection() {
         final Class<?> modelCollectionClass = dataCollectionField.getType();
         if (modelCollectionClass.isInterface()) {
@@ -65,7 +66,8 @@ final class SheetDefinition {
             } else if (Collection.class.isAssignableFrom(modelCollectionClass)) {
                 return (C) new ArrayList<>();
             } else {
-                throw new FaxelException("Can not create model collection instance");
+                LOG.error("FATAL: Can not create model collection instance of class {}", modelCollectionClass);
+                throw new FaxelException("Can not create model collection instance of class %s", modelCollectionClass.getName());
             }
         } else {
             final Object desiredCollection = ClassInitializer.createSilently(modelCollectionClass);
@@ -74,35 +76,12 @@ final class SheetDefinition {
     }
 
     private Stream<SourceCells> cellsStream(SourceExcel source) {
-        final SourceSheet sheet = sourceSheetFrom(source);
+        final SourceSheet sheet = source.sheetOf(this.sheetMetadata);
         final int firstPosition = sheetMetadata.startPosition() - 1;
         final int numberOfRowsToParse = sheetMetadata.maxPosition() - sheetMetadata.startPosition() + 1;
-        final Iterator<SourceCells> cellsIterator = cellsIterator(sheet);
+        final Iterator<SourceCells> cellsIterator = sheet.cellsIterator(sheetMetadata.arrangement());
         return stream(Spliterators.spliteratorUnknownSize(cellsIterator, Spliterator.ORDERED), false)
                 .skip(firstPosition)
                 .limit(numberOfRowsToParse);
-    }
-
-    private SourceSheet sourceSheetFrom(SourceExcel source) {
-        boolean hasName = !"".equals(this.sheetMetadata.name());
-        boolean hasIndex = -1 != this.sheetMetadata.index();
-        if (hasName) {
-            return source.sheetOf(this.sheetMetadata.name());
-        } else if (hasIndex) {
-            return source.sheetOf(this.sheetMetadata.index());
-        } else {
-            throw new FaxelException("ExcelSheet must have name or index argument provided.");
-        }
-    }
-
-    private Iterator<SourceCells> cellsIterator(SourceSheet sheet) {
-        switch (sheetMetadata.arrangement()) {
-            case ROW:
-                return sheet.rowsIterator();
-            case COLUMN:
-                return sheet.columnsIterator();
-            default:
-                throw new IllegalArgumentException("Unknown data arrangement type");
-        }
     }
 }

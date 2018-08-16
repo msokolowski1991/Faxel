@@ -19,6 +19,11 @@ public interface SourceSheet {
      */
     Iterator<SourceCells> columnsIterator();
 
+    /**
+     * Determine SourceCell iterator based on given {@link DataArrangementType}.
+     * @param arrangement a data arrangement type, must not be null.
+     * @return rows or columns based {@link SourceCells} iterator.
+     */
     default Iterator<SourceCells> cellsIterator(DataArrangementType arrangement) {
         switch (arrangement) {
             case ROW:
