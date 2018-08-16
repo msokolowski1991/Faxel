@@ -84,9 +84,11 @@ Then use it in @Cell annotation
     @Cell(index = 5, converter = CustomBigDecimalConverter.class)
 ```
 ## Release info
-1.1.0
+#### 1.1.0
 - Fixed issue with @ExcelSheet field type. Now any child of java.util.Collection is supported.
 - Added few helper methods to *Source classes.
 - Internal code refactoring
+#### 1.0.0
+- First Release version
 # Contact
 You may contact me at: michal.sokolowski@falcon.net.pl
