@@ -1,10 +1,7 @@
 package faxel.model
 
 import faxel.source.SourceFactory
-import faxel.test.data.inrow.excelsheettypes.CollectionExcelSheetExcel
-import faxel.test.data.inrow.excelsheettypes.CustomImplementationExcelSheetExcel
-import faxel.test.data.inrow.excelsheettypes.ListExcelSheetExcel
-import faxel.test.data.inrow.excelsheettypes.SetExcelSheetExcel
+import faxel.test.data.inrow.excelsheettypes.*
 import spock.lang.Specification
 
 class ExcelSheetTypesSpec extends Specification {
@@ -29,6 +26,16 @@ class ExcelSheetTypesSpec extends Specification {
           result instanceof ListExcelSheetExcel
     }
 
+    def "Should parse if ExcelSheet field is child of java.util.List"() {
+        given: "Default model"
+          def excelStream = getClass().getResourceAsStream("/types.xlsx")
+          def model = ModelDefinitionFactory.get().create(ArrayListExcelSheetExcel)
+        when: "Parser parse source excel"
+          def result = model.fill(SourceFactory.get().create(excelStream), new ArrayListExcelSheetExcel())
+        then:
+          result instanceof ArrayListExcelSheetExcel
+    }
+
     def "Should parse if ExcelSheet field is java.util.Set"() {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
@@ -37,6 +44,16 @@ class ExcelSheetTypesSpec extends Specification {
           def result = model.fill(SourceFactory.get().create(excelStream), new SetExcelSheetExcel())
         then:
           result instanceof SetExcelSheetExcel
+    }
+
+    def "Should parse if ExcelSheet field is child of java.util.Set"() {
+        given: "Default model"
+          def excelStream = getClass().getResourceAsStream("/types.xlsx")
+          def model = ModelDefinitionFactory.get().create(HashSetExcelSheetExcel)
+        when: "Parser parse source excel"
+          def result = model.fill(SourceFactory.get().create(excelStream), new HashSetExcelSheetExcel())
+        then:
+          result instanceof HashSetExcelSheetExcel
     }
 
     def "Should parse if ExcelSheet field is custom collection implementation"() {
