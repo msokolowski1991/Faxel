@@ -1,6 +1,7 @@
-package faxel.model
+package faxel.model.apachepoi
 
 import faxel.FaxelException
+import faxel.model.ModelDefinitionFactory
 import faxel.source.SourceFactory
 import faxel.test.data.inrow.fail.*
 import spock.lang.Specification

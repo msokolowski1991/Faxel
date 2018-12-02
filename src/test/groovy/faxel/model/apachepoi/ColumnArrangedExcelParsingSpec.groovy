@@ -1,5 +1,6 @@
-package faxel.model
+package faxel.model.apachepoi
 
+import faxel.model.ModelDefinitionFactory
 import faxel.source.SourceFactory
 import faxel.test.data.incolumn.Vehicle
 import faxel.test.data.incolumn.VehicleExcel

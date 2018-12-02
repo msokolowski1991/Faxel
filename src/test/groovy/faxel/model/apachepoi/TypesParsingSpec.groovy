@@ -1,5 +1,6 @@
-package faxel.model
+package faxel.model.apachepoi
 
+import faxel.model.ModelDefinitionFactory
 import faxel.source.SourceFactory
 import faxel.test.data.inrow.types.TypesBoxedIndexdSheetExcel
 import faxel.test.data.inrow.types.TypesBoxedNamedSheetExcel
