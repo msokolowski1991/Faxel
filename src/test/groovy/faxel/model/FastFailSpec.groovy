@@ -1,4 +1,4 @@
-package faxel.model.apachepoi
+package faxel.model
 
 import faxel.FaxelException
 import faxel.model.ModelDefinitionFactory
