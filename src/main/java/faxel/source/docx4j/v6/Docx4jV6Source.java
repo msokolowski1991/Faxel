@@ -40,10 +40,10 @@ public class Docx4jV6Source implements SourceExcel {
     public SourceSheet sheetOf(int index) {
         // TODO assertions
         try {
-            final WorksheetPart worksheet = source.getWorkbookPart().getWorksheet(index + 1);
+            final WorksheetPart worksheet = source.getWorkbookPart().getWorksheet(index);
             return new Docx4jSheet(worksheet);
         } catch (Xlsx4jException e) {
-            throw new FaxelException("Could not parse spreadsheet");
+            throw new FaxelException("Could not parse spreadsheet", e);
         }
     }
 
