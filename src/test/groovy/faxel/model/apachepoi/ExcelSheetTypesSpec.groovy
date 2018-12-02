@@ -2,17 +2,20 @@ package faxel.model.apachepoi
 
 import faxel.model.ModelDefinitionFactory
 import faxel.source.SourceFactory
+import faxel.source.SourceType
 import faxel.test.data.inrow.excelsheettypes.*
 import spock.lang.Specification
 
 class ExcelSheetTypesSpec extends Specification {
+
+    def sourceFactory = SourceFactory.get(SourceType.POI_V3)
 
     def "Should parse if ExcelSheet field is java.util.Collection"() {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(CollectionExcelSheetExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new CollectionExcelSheetExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new CollectionExcelSheetExcel())
         then:
           result instanceof CollectionExcelSheetExcel
     }
@@ -22,7 +25,7 @@ class ExcelSheetTypesSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(ListExcelSheetExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new ListExcelSheetExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new ListExcelSheetExcel())
         then:
           result instanceof ListExcelSheetExcel
     }
@@ -32,7 +35,7 @@ class ExcelSheetTypesSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(ArrayListExcelSheetExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new ArrayListExcelSheetExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new ArrayListExcelSheetExcel())
         then:
           result instanceof ArrayListExcelSheetExcel
     }
@@ -42,7 +45,7 @@ class ExcelSheetTypesSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(SetExcelSheetExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new SetExcelSheetExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new SetExcelSheetExcel())
         then:
           result instanceof SetExcelSheetExcel
     }
@@ -52,7 +55,7 @@ class ExcelSheetTypesSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(HashSetExcelSheetExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new HashSetExcelSheetExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new HashSetExcelSheetExcel())
         then:
           result instanceof HashSetExcelSheetExcel
     }
@@ -62,7 +65,7 @@ class ExcelSheetTypesSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(CustomImplementationExcelSheetExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new CustomImplementationExcelSheetExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new CustomImplementationExcelSheetExcel())
         then:
           result instanceof CustomImplementationExcelSheetExcel
     }

@@ -2,19 +2,22 @@ package faxel.model.apachepoi
 
 import faxel.model.ModelDefinitionFactory
 import faxel.source.SourceFactory
+import faxel.source.SourceType
 import faxel.test.data.incolumn.Vehicle
 import faxel.test.data.incolumn.VehicleExcel
 import faxel.test.data.incolumn.VehicleExcelWithMaxLimit
 import spock.lang.Specification
 
-
 class ColumnArrangedExcelParsingSpec extends Specification {
+
+    def sourceFactory = SourceFactory.get(SourceType.POI_V3)
+
     def "Should parse vehicles excel arranged in columns to java object"() {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/vehicles.xlsx")
           def model = ModelDefinitionFactory.get().create(VehicleExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new VehicleExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new VehicleExcel())
         then: "The result is VehicleExcel instance"
           result instanceof VehicleExcel
         when: "Result is VehicleExcel"
@@ -31,7 +34,7 @@ class ColumnArrangedExcelParsingSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/vehicles.xlsx")
           def model = ModelDefinitionFactory.get().create(VehicleExcelWithMaxLimit)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new VehicleExcelWithMaxLimit())
+        def result = model.fill(sourceFactory.create(excelStream), new VehicleExcelWithMaxLimit())
         then: "The result is VehicleExcelWithMaxLimit instance"
           result instanceof VehicleExcelWithMaxLimit
         when: "Result is VehicleExcelWithMaxLimit"

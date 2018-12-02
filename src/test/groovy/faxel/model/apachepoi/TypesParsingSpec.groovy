@@ -2,6 +2,7 @@ package faxel.model.apachepoi
 
 import faxel.model.ModelDefinitionFactory
 import faxel.source.SourceFactory
+import faxel.source.SourceType
 import faxel.test.data.inrow.types.TypesBoxedIndexdSheetExcel
 import faxel.test.data.inrow.types.TypesBoxedNamedSheetExcel
 import faxel.test.data.inrow.types.TypesPrimitivesExcel
@@ -11,16 +12,16 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-
 class TypesParsingSpec extends Specification {
 
+    def sourceFactory = SourceFactory.get(SourceType.POI_V3)
 
     def "Should parse boxed types excel arranged in rows with named sheets to java object"() {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesBoxedNamedSheetExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new TypesBoxedNamedSheetExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new TypesBoxedNamedSheetExcel())
         then: "The result is TypesBoxedNamedSheetExcel instance"
           result instanceof TypesBoxedNamedSheetExcel
         when: "Result is TypesBoxedNamedSheetExcel"
@@ -46,7 +47,7 @@ class TypesParsingSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesBoxedIndexdSheetExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new TypesBoxedIndexdSheetExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new TypesBoxedIndexdSheetExcel())
         then: "The result is TypesBoxedIndexdSheetExcel instance"
           result instanceof TypesBoxedIndexdSheetExcel
         when: "Result is TypesBoxedIndexdSheetExcel"
@@ -72,7 +73,7 @@ class TypesParsingSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesPrimitivesExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new TypesPrimitivesExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new TypesPrimitivesExcel())
         then: "The result is TypesPrimitivesExcel instance"
           result instanceof TypesPrimitivesExcel
         when: "Result is TypesPrimitivesExcel"
@@ -98,7 +99,7 @@ class TypesParsingSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/types-empty.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesPrimitivesExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new TypesPrimitivesExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new TypesPrimitivesExcel())
         then: "The result is TypesPrimitivesExcel instance"
           result instanceof TypesPrimitivesExcel
         when: "Result is TypesPrimitivesExcel"

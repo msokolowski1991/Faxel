@@ -2,6 +2,7 @@ package faxel.model.apachepoi
 
 import faxel.model.ModelDefinitionFactory
 import faxel.source.SourceFactory
+import faxel.source.SourceType
 import faxel.test.data.inrow.person.Address
 import faxel.test.data.inrow.person.Person
 import faxel.test.data.inrow.person.PersonDataExcel
@@ -14,12 +15,14 @@ import java.time.LocalTime
 
 class RowArrangedExcelParsingSpec extends Specification {
 
+    def sourceFactory = SourceFactory.get(SourceType.POI_V3)
+
     def "Should parse person excel arranged in rows to java object"() {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/person-data.xlsx")
           def model = ModelDefinitionFactory.get().create(PersonDataExcel)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new PersonDataExcel())
+          def result = model.fill(sourceFactory.create(excelStream), new PersonDataExcel())
         then: "The result is PersonDataExcel instance"
           result instanceof PersonDataExcel
         when: "Result is PersonDataExcel"
@@ -44,7 +47,7 @@ class RowArrangedExcelParsingSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/person-data.xlsx")
           def model = ModelDefinitionFactory.get().create(PersonDataExcelWithMaxLimit)
         when: "Parser parse source excel"
-          def result = model.fill(SourceFactory.get().create(excelStream), new PersonDataExcelWithMaxLimit())
+          def result = model.fill(sourceFactory.create(excelStream), new PersonDataExcelWithMaxLimit())
         then: "The result is PersonDataExcelWithMaxLimit instance"
           result instanceof PersonDataExcelWithMaxLimit
         when: "Result is PersonDataExcelWithMaxLimit"
