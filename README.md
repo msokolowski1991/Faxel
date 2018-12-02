@@ -84,6 +84,10 @@ Then use it in @Cell annotation
     @Cell(index = 5, converter = CustomBigDecimalConverter.class)
 ```
 ## Release info
+#### 1.2.0
+- Added support of docx4j 6.x.x
+- Introduced SourceType enum.
+- SourceFactory can be created using SourceType enum
 #### 1.1.1
 - Fixed issue with column arrangement indexes
 - Fixed issue with incorrect data read from cell
