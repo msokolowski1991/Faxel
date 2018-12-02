@@ -6,7 +6,7 @@ By annotating your java classes, You can define how an excel should be represent
 <dependency>
   <groupId>pl.net.falcon</groupId>
   <artifactId>faxel</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
 </dependency>
 ```
 ## Example usage
@@ -84,6 +84,9 @@ Then use it in @Cell annotation
     @Cell(index = 5, converter = CustomBigDecimalConverter.class)
 ```
 ## Release info
+#### 1.1.1
+- Fixed issue with column arrangement indexes
+- Fixed issue with incorrect data read from cell
 #### 1.1.0
 - Fixed issue with @ExcelSheet field type. Now any child of java.util.Collection is supported.
 - Added few helper methods to *Source classes.
