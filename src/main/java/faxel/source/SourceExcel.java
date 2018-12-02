@@ -15,7 +15,7 @@ public interface SourceExcel {
     SourceSheet sheetOf(String sheetName);
 
     /**
-     * @param index of the excel sheet
+     * @param index 0 based index of the excel sheet
      * @return Sheet of given index
      */
     SourceSheet sheetOf(int index);
