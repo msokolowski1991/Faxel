@@ -1,6 +1,5 @@
 package faxel.model
 
-import faxel.model.ModelDefinitionFactory
 import faxel.source.SourceFactory
 import faxel.source.SourceType
 import faxel.test.data.inrow.excelsheettypes.*
