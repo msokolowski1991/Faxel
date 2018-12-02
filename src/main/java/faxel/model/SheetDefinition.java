@@ -1,20 +1,26 @@
 package faxel.model;
 
-import static java.util.stream.StreamSupport.stream;
-
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import faxel.FaxelException;
 import faxel.annotation.ExcelSheet;
 import faxel.source.SourceCells;
 import faxel.source.SourceExcel;
 import faxel.source.SourceSheet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.StreamSupport.stream;
 
 final class SheetDefinition {
     private static Logger LOG = LoggerFactory.getLogger(SheetDefinition.class);
@@ -70,18 +76,17 @@ final class SheetDefinition {
                 throw new FaxelException("Can not create model collection instance of class %s", modelCollectionClass.getName());
             }
         } else {
-            final Object desiredCollection = ClassInitializer.createSilently(modelCollectionClass);
-            return (C) desiredCollection;
+            return (C) ClassInitializer.createSilently(modelCollectionClass);
         }
     }
 
     private Stream<SourceCells> cellsStream(SourceExcel source) {
         final SourceSheet sheet = source.sheetOf(this.sheetMetadata);
         final int firstPosition = sheetMetadata.startPosition() - 1;
-        final int numberOfRowsToParse = sheetMetadata.maxPosition() - sheetMetadata.startPosition() + 1;
+        final int numberOfPositionsToParse = sheetMetadata.maxPosition() - sheetMetadata.startPosition() + 1;
         final Iterator<SourceCells> cellsIterator = sheet.cellsIterator(sheetMetadata.arrangement());
         return stream(Spliterators.spliteratorUnknownSize(cellsIterator, Spliterator.ORDERED), false)
                 .skip(firstPosition)
-                .limit(numberOfRowsToParse);
+                .limit(numberOfPositionsToParse);
     }
 }

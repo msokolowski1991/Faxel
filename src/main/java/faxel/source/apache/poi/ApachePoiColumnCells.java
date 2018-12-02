@@ -27,7 +27,7 @@ class ApachePoiColumnCells implements SourceCells {
     public SourceCell cellAt(int rowIndex) {
         final Cell cell = sheet.getRow(rowIndex).getCell(columnIndex);
         if (cell == null) {
-            throw new FaxelException("Cell at %d index does not exists", columnIndex);
+            throw new FaxelException("Cell at index %d does not exists", columnIndex);
         }
         if (cellTemplate == null) {
             return cellTemplate = new ApachePoiCell(cell);

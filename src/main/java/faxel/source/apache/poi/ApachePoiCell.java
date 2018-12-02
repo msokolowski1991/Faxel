@@ -1,13 +1,17 @@
 package faxel.source.apache.poi;
 
-import static org.apache.poi.ss.usermodel.Cell.*;
+import faxel.FaxelException;
+import faxel.source.SourceCell;
+import org.apache.poi.ss.usermodel.Cell;
 
 import java.util.Date;
 
-import org.apache.poi.ss.usermodel.Cell;
-
-import faxel.FaxelException;
-import faxel.source.SourceCell;
+import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BLANK;
+import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BOOLEAN;
+import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_ERROR;
+import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_FORMULA;
+import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_NUMERIC;
+import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING;
 
 class ApachePoiCell implements SourceCell {
 
@@ -15,13 +19,17 @@ class ApachePoiCell implements SourceCell {
     private int cellTypeCode;
 
     ApachePoiCell(Cell cell) {
-        this.cell = cell;
-        this.cellTypeCode = cell.getCellType();
+        setupCell(cell);
     }
 
     ApachePoiCell with(Cell cell) {
-        this.cell = cell;
+        setupCell(cell);
         return this;
+    }
+
+    private void setupCell(Cell cell) {
+        this.cell = cell;
+        this.cellTypeCode = cell.getCellType();
     }
 
     @Override
