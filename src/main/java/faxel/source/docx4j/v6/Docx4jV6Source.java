@@ -55,7 +55,8 @@ public class Docx4jV6Source implements SourceExcel {
         }
 
         int indexOf(String sheetName) {
-            return sheetNameToIndexMap.get(sheetName).intValue();
+            final int sheetId = sheetNameToIndexMap.get(sheetName).intValue();
+            return sheetId - 1;
         }
 
         static SheetNameToIndexMap from(SpreadsheetMLPackage source)  {

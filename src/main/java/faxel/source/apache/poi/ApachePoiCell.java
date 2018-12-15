@@ -52,7 +52,7 @@ class ApachePoiCell implements SourceCell {
 
     @Override
     public boolean boolValue() {
-        if (isCellOneOf(CELL_TYPE_BOOLEAN, CELL_TYPE_BLANK)) {
+        if (isCellOneOf(CELL_TYPE_BOOLEAN, CELL_TYPE_BLANK, CELL_TYPE_FORMULA)) {
             return cell.getBooleanCellValue();
         } else {
             throw new FaxelException("Illegal cell type %s. Could not get boolean value", getCellTypeName());

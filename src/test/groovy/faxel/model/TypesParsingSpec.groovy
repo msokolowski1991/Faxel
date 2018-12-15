@@ -6,6 +6,7 @@ import faxel.test.data.inrow.types.TypesBoxedIndexdSheetExcel
 import faxel.test.data.inrow.types.TypesBoxedNamedSheetExcel
 import faxel.test.data.inrow.types.TypesPrimitivesExcel
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -13,14 +14,16 @@ import java.time.LocalTime
 
 class TypesParsingSpec extends Specification {
 
-    def sourceFactory = SourceFactory.get(SourceType.POI_V3)
+    static poi3SourceFactory = SourceFactory.get(SourceType.POI_V3)
+    static docx4jSourceFactory = SourceFactory.get(SourceType.DOCX4J_V6)
 
-    def "Should parse boxed types excel arranged in rows with named sheets to java object"() {
+    @Unroll
+    def "Should parse boxed types excel arranged in rows with named sheets to java object. Using #description."(SourceFactory factory, String description) {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesBoxedNamedSheetExcel)
         when: "Parser parse source excel"
-          def result = model.fill(sourceFactory.create(excelStream), new TypesBoxedNamedSheetExcel())
+          def result = model.fill(factory.create(excelStream), new TypesBoxedNamedSheetExcel())
         then: "The result is TypesBoxedNamedSheetExcel instance"
           result instanceof TypesBoxedNamedSheetExcel
         when: "Result is TypesBoxedNamedSheetExcel"
@@ -39,14 +42,19 @@ class TypesParsingSpec extends Specification {
               aLocalDateTime == LocalDateTime.of(2020, 5, 5, 10, 0, 10)
               aLocalTime == LocalTime.of(5, 0, 0)
           }
+        where:
+          factory             | description
+          poi3SourceFactory   | "Apache poi"
+          docx4jSourceFactory | "docx4j"
     }
 
-    def "Should parse boxed types excel arranged in rows with indexed sheets to java object"() {
+    @Unroll
+    def "Should parse boxed types excel arranged in rows with indexed sheets to java object. Using #description."(SourceFactory factory, String description) {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesBoxedIndexdSheetExcel)
         when: "Parser parse source excel"
-          def result = model.fill(sourceFactory.create(excelStream), new TypesBoxedIndexdSheetExcel())
+          def result = model.fill(factory.create(excelStream), new TypesBoxedIndexdSheetExcel())
         then: "The result is TypesBoxedIndexdSheetExcel instance"
           result instanceof TypesBoxedIndexdSheetExcel
         when: "Result is TypesBoxedIndexdSheetExcel"
@@ -65,14 +73,19 @@ class TypesParsingSpec extends Specification {
               aLocalDateTime == LocalDateTime.of(2020, 5, 5, 10, 0, 10)
               aLocalTime == LocalTime.of(5, 0, 0)
           }
+        where:
+          factory             | description
+          poi3SourceFactory   | "Apache poi"
+          docx4jSourceFactory | "docx4j"
     }
 
-    def "Should parse primitive types excel arranged in rows to java object"() {
+    @Unroll
+    def "Should parse primitive types excel arranged in rows to java object. Using #description."(SourceFactory factory, String description) {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/types.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesPrimitivesExcel)
         when: "Parser parse source excel"
-          def result = model.fill(sourceFactory.create(excelStream), new TypesPrimitivesExcel())
+          def result = model.fill(factory.create(excelStream), new TypesPrimitivesExcel())
         then: "The result is TypesPrimitivesExcel instance"
           result instanceof TypesPrimitivesExcel
         when: "Result is TypesPrimitivesExcel"
@@ -91,14 +104,19 @@ class TypesParsingSpec extends Specification {
               aLocalDateTime == new Date(120, 4, 5, 10, 0, 10)
               aLocalTime == new Date(-1, 11, 31, 5, 0, 0)
           }
+        where:
+          factory             | description
+          poi3SourceFactory   | "Apache poi"
+          docx4jSourceFactory | "docx4j"
     }
 
-    def "Should parse empty types excel arranged in rows to java object"() {
+    @Unroll
+    def "Should parse empty types excel arranged in rows to java object. Using #description."(SourceFactory factory, String description) {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/types-empty.xlsx")
           def model = ModelDefinitionFactory.get().create(TypesPrimitivesExcel)
         when: "Parser parse source excel"
-          def result = model.fill(sourceFactory.create(excelStream), new TypesPrimitivesExcel())
+          def result = model.fill(factory.create(excelStream), new TypesPrimitivesExcel())
         then: "The result is TypesPrimitivesExcel instance"
           result instanceof TypesPrimitivesExcel
         when: "Result is TypesPrimitivesExcel"
@@ -117,5 +135,9 @@ class TypesParsingSpec extends Specification {
               aLocalDateTime == null
               aLocalTime == null
           }
+        where:
+          factory             | description
+          poi3SourceFactory   | "Apache poi"
+          docx4jSourceFactory | "docx4j"
     }
 }
