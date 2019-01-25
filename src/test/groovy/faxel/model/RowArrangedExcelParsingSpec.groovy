@@ -7,6 +7,7 @@ import faxel.test.data.inrow.person.Person
 import faxel.test.data.inrow.person.PersonDataExcel
 import faxel.test.data.inrow.person.PersonDataExcelWithMaxLimit
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -14,14 +15,16 @@ import java.time.LocalTime
 
 class RowArrangedExcelParsingSpec extends Specification {
 
-    def sourceFactory = SourceFactory.get(SourceType.POI_V3)
+    static poi3SourceFactory = SourceFactory.get(SourceType.POI_V3)
+    static docx4jSourceFactory = SourceFactory.get(SourceType.DOCX4J_V6)
 
-    def "Should parse person excel arranged in rows to java object"() {
+    @Unroll
+    def "Should parse person excel arranged in rows to java object. Using #description."(SourceFactory factory, String description) {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/person-data.xlsx")
           def model = ModelDefinitionFactory.get().create(PersonDataExcel)
         when: "Parser parse source excel"
-          def result = model.fill(sourceFactory.create(excelStream), new PersonDataExcel())
+          def result = model.fill(factory.create(excelStream), new PersonDataExcel())
         then: "The result is PersonDataExcel instance"
           result instanceof PersonDataExcel
         when: "Result is PersonDataExcel"
@@ -39,14 +42,19 @@ class RowArrangedExcelParsingSpec extends Specification {
           result.addresses[1] == new Address(2, 1, "Kraków Pawia 2", "CORESPONDENCE", LocalDate.of(2024, 12, 31), LocalDateTime.of(2010, 1, 11, 9, 45))
           result.addresses[2] == new Address(3, 2, "Kraków Dolna 1", "RESIDENCE", LocalDate.of(2030, 12, 31), LocalDateTime.of(2010, 1, 12, 18, 45, 15))
           result.addresses[3] == new Address(4, 3, "Kraków Al. Pokoju 1", "RESIDENCE", LocalDate.of(2019, 12, 31), LocalDateTime.of(2010, 1, 13, 20, 0))
+        where:
+          factory             | description
+          poi3SourceFactory   | "Apache poi"
+          docx4jSourceFactory | "docx4j"
     }
 
-    def "Should parse person excel arranged in rows with max limit to java object"() {
+    @Unroll
+    def "Should parse person excel arranged in rows with max limit to java object. Using #description."(SourceFactory factory, String description) {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/person-data.xlsx")
           def model = ModelDefinitionFactory.get().create(PersonDataExcelWithMaxLimit)
         when: "Parser parse source excel"
-          def result = model.fill(sourceFactory.create(excelStream), new PersonDataExcelWithMaxLimit())
+          def result = model.fill(factory.create(excelStream), new PersonDataExcelWithMaxLimit())
         then: "The result is PersonDataExcelWithMaxLimit instance"
           result instanceof PersonDataExcelWithMaxLimit
         when: "Result is PersonDataExcelWithMaxLimit"
@@ -60,6 +68,10 @@ class RowArrangedExcelParsingSpec extends Specification {
 
           result.addresses[0] == new Address(2, 1, "Kraków Pawia 2", "CORESPONDENCE", LocalDate.of(2024, 12, 31), LocalDateTime.of(2010, 1, 11, 9, 45))
           result.addresses[1] == new Address(3, 2, "Kraków Dolna 1", "RESIDENCE", LocalDate.of(2030, 12, 31), LocalDateTime.of(2010, 1, 12, 18, 45, 15))
+        where:
+          factory             | description
+          poi3SourceFactory   | "Apache poi"
+          docx4jSourceFactory | "docx4j"
     }
 
     private static BigDecimal decimalOf(Long val) {
