@@ -2,6 +2,7 @@ package faxel.source.docx4j.v6;
 
 import faxel.FaxelException;
 import faxel.source.SourceCell;
+import org.xlsx4j.org.apache.poi.ss.usermodel.DataFormatter;
 import org.xlsx4j.org.apache.poi.ss.usermodel.DateUtil;
 import org.xlsx4j.sml.Cell;
 import org.xlsx4j.sml.STCellType;
@@ -9,6 +10,7 @@ import org.xlsx4j.sml.STCellType;
 import java.util.Date;
 
 class Docx4jCell implements SourceCell {
+    private static final DataFormatter dataFormatter = new DataFormatter();
 
     private final Cell cell;
     private final STCellType cellType;
@@ -17,14 +19,18 @@ class Docx4jCell implements SourceCell {
     Docx4jCell(Cell cell) {
         this.cell = cell;
         this.stringValue = cell.getV();
+        this.cellType = cell.getT();
     }
 
     @Override
     public String stringValue() {
+        if (stringValue == null) {
+            return null;
+        }
         if (cellType != STCellType.S) {
             throw new FaxelException("Illegal cell type %s. Could not get string value", cellType.value());
         }
-        return stringValue;
+        return dataFormatter.formatCellValue(cell);
     }
 
     @Override

@@ -124,7 +124,7 @@ class TypesParsingSpec extends Specification {
         then: "Result should has one row"
           result.types.size() == 1
           with(result.types[0]) {
-              aString == ""
+              aString == "" || aString == null
               aInteger == 0
               aLong == 0L
               aShort == (short) 0
