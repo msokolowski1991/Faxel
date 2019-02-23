@@ -55,7 +55,7 @@ public class Docx4jV6Source implements SourceExcel {
         }
 
         int indexOf(String sheetName) {
-            final Long sheetId = sheetNameToIndexMap.get(sheetName);
+            final Long sheetId = sheetNameToIndexMap.get(sheetName.toLowerCase());
             if (sheetId == null) {
                 throw new FaxelException("Could not find sheet " + sheetName);
             }
@@ -66,7 +66,7 @@ public class Docx4jV6Source implements SourceExcel {
             try {
                 List<Sheet> sheets = source.getWorkbookPart().getContents().getSheets().getSheet();
                 Map<String, Long> sheetNameToIndexMap = sheets.stream()
-                        .collect(Collectors.toMap(Sheet::getName, Sheet::getSheetId));
+                        .collect(Collectors.toMap(s -> s.getName().toLowerCase(), Sheet::getSheetId));
                 return new SheetNameToIndexMap(sheetNameToIndexMap);
             } catch (Docx4JException e) {
                 throw new FaxelException("Could not parse spreadsheet");

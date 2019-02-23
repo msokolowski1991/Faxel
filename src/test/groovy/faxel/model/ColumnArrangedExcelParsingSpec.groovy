@@ -6,17 +6,20 @@ import faxel.test.data.incolumn.Vehicle
 import faxel.test.data.incolumn.VehicleExcel
 import faxel.test.data.incolumn.VehicleExcelWithMaxLimit
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class ColumnArrangedExcelParsingSpec extends Specification {
 
-    def sourceFactory = SourceFactory.get(SourceType.POI_V3)
+    static poi3SourceFactory = SourceFactory.get(SourceType.POI_V3)
+    static docx4j6SourceFactory = SourceFactory.get(SourceType.DOCX4J_V6)
 
-    def "Should parse vehicles excel arranged in columns to java object"() {
+    @Unroll
+    def "Should parse vehicles excel arranged in columns to java object. Using #description."(SourceFactory factory, String description) {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/vehicles.xlsx")
           def model = ModelDefinitionFactory.get().create(VehicleExcel)
         when: "Parser parse source excel"
-          def result = model.fill(sourceFactory.create(excelStream), new VehicleExcel())
+          def result = model.fill(factory.create(excelStream), new VehicleExcel())
         then: "The result is VehicleExcel instance"
           result instanceof VehicleExcel
         when: "Result is VehicleExcel"
@@ -26,14 +29,19 @@ class ColumnArrangedExcelParsingSpec extends Specification {
           result.vehicles[0] == new Vehicle("Honda", "Accord")
           result.vehicles[1] == new Vehicle("Volkswagen", "Polo")
           result.vehicles[2] == new Vehicle("Ferrari", "Enzo")
+        where:
+          factory              | description
+          poi3SourceFactory    | "Apache poi"
+          docx4j6SourceFactory | "docx4j"
     }
 
-    def "Should parse vehicles excel arranged in columns limited to third position to java object"() {
+    @Unroll
+    def "Should parse vehicles excel arranged in columns limited to third position to java object. Using #description."(SourceFactory factory, String description) {
         given: "Default model"
           def excelStream = getClass().getResourceAsStream("/vehicles.xlsx")
           def model = ModelDefinitionFactory.get().create(VehicleExcelWithMaxLimit)
         when: "Parser parse source excel"
-        def result = model.fill(sourceFactory.create(excelStream), new VehicleExcelWithMaxLimit())
+          def result = model.fill(factory.create(excelStream), new VehicleExcelWithMaxLimit())
         then: "The result is VehicleExcelWithMaxLimit instance"
           result instanceof VehicleExcelWithMaxLimit
         when: "Result is VehicleExcelWithMaxLimit"
@@ -42,5 +50,9 @@ class ColumnArrangedExcelParsingSpec extends Specification {
           result.vehicles.size() == 2
           result.vehicles[0] == new Vehicle("Honda", "Accord")
           result.vehicles[1] == new Vehicle("Volkswagen", "Polo")
+        where:
+          factory              | description
+          poi3SourceFactory    | "Apache poi"
+          docx4j6SourceFactory | "docx4j"
     }
 }

@@ -6,8 +6,8 @@ package faxel.source;
 public interface SourceCells {
 
     /**
-     * @param columnIndex index of cell
+     * @param index index of cell
      * @return cell at given index
      */
-    SourceCell cellAt(int columnIndex);
+    SourceCell cellAt(int index);
 }
