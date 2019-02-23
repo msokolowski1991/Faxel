@@ -38,7 +38,6 @@ class Docx4jSheet implements SourceSheet {
         @Override
         public boolean hasNext() {
             return iterator.hasNext();
-
         }
 
         @Override
