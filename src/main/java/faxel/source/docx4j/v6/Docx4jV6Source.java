@@ -24,7 +24,9 @@ public class Docx4jV6Source implements SourceExcel {
 
     @Override
     public SourceSheet sheetOf(String sheetName) {
-        // TODO assertions
+        if (sheetName == null) {
+            throw new FaxelException("SheetName can not be null");
+        }
         final int sheetIndex = sheetIndex(sheetName);
         return sheetOf(sheetIndex);
     }
@@ -38,11 +40,16 @@ public class Docx4jV6Source implements SourceExcel {
 
     @Override
     public SourceSheet sheetOf(int index) {
-        // TODO assertions
+        if (index < 0) {
+            throw new FaxelException("Index should be >= 0");
+        }
         try {
+            if (index >= source.getWorkbookPart().getContents().getSheets().getSheet().size()) {
+                throw new FaxelException("Sheet at %d index does not exist", index);
+            }
             final WorksheetPart worksheet = source.getWorkbookPart().getWorksheet(index);
             return new Docx4jSheet(worksheet);
-        } catch (Xlsx4jException e) {
+        } catch (Xlsx4jException | Docx4JException e) {
             throw new FaxelException("Could not parse spreadsheet", e);
         }
     }
