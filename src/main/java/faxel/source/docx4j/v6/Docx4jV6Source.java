@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The Docx4j 6+ SourceExcel implementation.
+ * To use this implementation you need to provide Docx4j 6+ or later dependency.
+ */
 public class Docx4jV6Source implements SourceExcel {
 
     private final SpreadsheetMLPackage source;
