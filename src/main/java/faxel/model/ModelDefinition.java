@@ -3,8 +3,8 @@ package faxel.model;
 import faxel.source.SourceExcel;
 
 /**
- * ModelDefinition is usually created by ModelDefinitionFactory.
- * Represents Metadata about Destination class type. <br>
+ * ModelDefinition is usually created by {@link ModelDefinitionFactory}. <br>
+ * Represents Metadata about Destination class type and knows how to fill destination bean with data from the {@link SourceExcel} <br>
  * Example usage:
  * <pre>
  *  // Create model from factory

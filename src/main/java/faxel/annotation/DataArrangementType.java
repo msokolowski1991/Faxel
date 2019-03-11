@@ -1,7 +1,7 @@
 package faxel.annotation;
 
 /**
- * Determine the way data is arranged in a sheet. Used in ExelSheet.<br>
+ * Determine the way data is arranged in a sheet. Used on collection field of rows/columns in destination bean.<br>
  * Example usage:
  * <pre>
  * {@code @ExcelSheet(sheetName = "Person"arrangement = DataArrangementType.ROW) }
