@@ -6,7 +6,7 @@ By annotating your java classes, You can define how an excel should be represent
 <dependency>
   <groupId>pl.net.falcon</groupId>
   <artifactId>faxel</artifactId>
-  <version>1.1.1</version>
+  <version>1.2.0</version>
 </dependency>
 ```
 ## Example usage
@@ -44,13 +44,18 @@ You can obtain it using SourceFactory which will determine your runtime parsing 
     InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx");
     SourceExcel source = SourceFactory.get().create(excelStream);
 ```
+pass parsing library by enum
+```
+    InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx");
+    SourceExcel source = SourceFactory.of(SourceType.DOCX4J_V6).create(excelStream);
+```
 or create it directly:
 ```
     InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx");
     Workbook workbook = WorkbookFactory.create(excelStream)
     SourceExcel source = new ApachePoi3Source(workbook);
 ```
-For now faxel.apache.poi.ApachePoi3Source which supports Apache POI 3.(6+) is the only one implementation but more will come soon in next releases.
+ Apache POI 3.(6+) and Docx4j 6.x.x+ are supported
 
 #### Parsing excel
 Then finally we can fill our model using SourceExcel. The source is used by previously created ModelDefinition to actually parse an excel:
