@@ -8,7 +8,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Set of supported excel parsing libraries.
+ * Enumeration of supported excel parsing libraries. <br />
+ * Can be used as parameter of {@link SourceFactory#of(SourceType)}.
  */
 public enum SourceType {
     /**

@@ -4,7 +4,7 @@ import faxel.FaxelException;
 import faxel.annotation.ExcelSheet;
 
 /**
- * Abstraction over excel implementation
+ * Abstraction over excel source implementation.
  */
 public interface SourceExcel {
 
