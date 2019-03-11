@@ -1,5 +1,8 @@
 package faxel;
 
+/**
+ * Common faxel exception thrown in case of any error.
+ */
 public class FaxelException extends RuntimeException {
     public FaxelException(Throwable cause, String message) {
         super(message, cause);
