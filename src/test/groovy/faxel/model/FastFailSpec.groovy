@@ -15,7 +15,7 @@ class FastFailSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/fast-fail.xlsx")
           def modelDefinition = ModelDefinitionFactory.get().create(model.class)
         when: "Parser parse source excel"
-          modelDefinition.fill(SourceFactory.get(SourceType.POI_V3).create(excelStream), model)
+          modelDefinition.fill(SourceFactory.of(SourceType.POI_V3).create(excelStream), model)
         then: "Should fast fail and throw an exception"
           thrown(FaxelException)
         where:
@@ -34,7 +34,7 @@ class FastFailSpec extends Specification {
           def excelStream = getClass().getResourceAsStream("/fast-fail.xlsx")
           def modelDefinition = ModelDefinitionFactory.get().create(model.class)
         when: "Parser parse source excel"
-          modelDefinition.fill(SourceFactory.get(SourceType.DOCX4J_V6).create(excelStream), model)
+          modelDefinition.fill(SourceFactory.of(SourceType.DOCX4J_V6).create(excelStream), model)
         then: "Should fast fail and throw an exception"
           thrown(FaxelException)
         where:

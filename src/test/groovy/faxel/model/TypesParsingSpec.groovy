@@ -14,8 +14,8 @@ import java.time.LocalTime
 
 class TypesParsingSpec extends Specification {
 
-    static poi3SourceFactory = SourceFactory.get(SourceType.POI_V3)
-    static docx4jSourceFactory = SourceFactory.get(SourceType.DOCX4J_V6)
+    static poi3SourceFactory = SourceFactory.of(SourceType.POI_V3)
+    static docx4jSourceFactory = SourceFactory.of(SourceType.DOCX4J_V6)
 
     @Unroll
     def "Should parse boxed types excel arranged in rows with named sheets to java object. Using #description."(SourceFactory factory, String description) {

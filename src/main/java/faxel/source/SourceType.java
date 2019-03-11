@@ -46,21 +46,20 @@ public enum SourceType {
         this.scanClass = scanClass;
     }
 
-    abstract SourceFactory createFactory();
-
-    static Optional<SourceType> findInClasspath() {
-        return Stream.of(values())
-                .filter(value -> hasClass(value.scanClass))
-                .findFirst();
-    }
-
-    private static boolean hasClass(String name) {
+    boolean isInClasspath() {
         try {
-            Class.forName(name);
+            Class.forName(scanClass);
             return true;
         } catch (ClassNotFoundException e) {
             return false;
         }
     }
 
+    abstract SourceFactory createFactory();
+
+    static Optional<SourceType> findInClasspath() {
+        return Stream.of(values())
+                .filter(SourceType::isInClasspath)
+                .findFirst();
+    }
 }

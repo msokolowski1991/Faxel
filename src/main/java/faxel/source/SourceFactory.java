@@ -1,13 +1,16 @@
 package faxel.source;
 
 import java.io.InputStream;
+import java.util.Arrays;
+
+import static java.lang.String.format;
 
 /**
  * SourceExcel createFactory. Simplifies SourceFactory creation. <br>
  * Example usage:
  * <pre>
  * InputStream excelStream = getClass().getResourceAsStream("/person-data.xlsx");
- * SourceExcel source = SourceFactory.get().create(excelStream);
+ * SourceExcel source = SourceFactory.{@link #get()}.create(excelStream);
  * </pre>
  */
 public abstract class SourceFactory {
@@ -18,7 +21,7 @@ public abstract class SourceFactory {
      * Returns SourceFactory instance. The instance is created based on runtime parsing library.
      * For example if an apache poi parser is present in runtime, then ApachePoiSourceFactory will be created.
      * If more than one supported library is present first one find is chosen.
-     * Please use {@link #get(SourceType)}  if you want to choose library by your own.
+     * Please use {@link #of(SourceType)}  if you want to choose library by your own.
      *
      * @return SourceFactory instance
      */
@@ -34,13 +37,13 @@ public abstract class SourceFactory {
      * @param type source type.
      * @return SourceFactory instance
      */
-    public static SourceFactory get(SourceType type) {
+    public static SourceFactory of(SourceType type) {
         return type.createFactory();
     }
 
     private static SourceFactory createInstance() {
         return SourceType.findInClasspath()
-                .orElseThrow(() -> new IllegalStateException("Not find any known excel parser. Provide one of [Apache POI 3, Docx4j 6]"))
+                .orElseThrow(() -> new IllegalStateException(format("Not find any known excel parser. Provide one of %s", Arrays.asList(SourceType.values()))))
                 .createFactory();
     }
 

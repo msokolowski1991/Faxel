@@ -8,8 +8,8 @@ import spock.lang.Unroll
 
 class ExcelSheetTypesSpec extends Specification {
 
-    static poi3SourceFactory = SourceFactory.get(SourceType.POI_V3)
-    static docx4jSourceFactory = SourceFactory.get(SourceType.DOCX4J_V6)
+    static poi3SourceFactory = SourceFactory.of(SourceType.POI_V3)
+    static docx4jSourceFactory = SourceFactory.of(SourceType.DOCX4J_V6)
 
     @Unroll
     def "Should parse if ExcelSheet field is java.util.Collection. Using #description."(SourceFactory factory, String description) {
