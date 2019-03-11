@@ -4,7 +4,6 @@ import faxel.FaxelException;
 import faxel.source.SourceCell;
 import org.xlsx4j.model.CellUtils;
 import org.xlsx4j.org.apache.poi.ss.usermodel.DataFormatter;
-import org.xlsx4j.org.apache.poi.ss.usermodel.DateUtil;
 import org.xlsx4j.sml.Cell;
 import org.xlsx4j.sml.STCellType;
 
@@ -42,7 +41,7 @@ class Docx4jCell implements SourceCell {
         if (stringValue == null) {
             return 0;
         }
-        return Double.valueOf(stringValue);
+        return CellUtils.getNumericCellValue(cell);
     }
 
     @Override
@@ -50,7 +49,7 @@ class Docx4jCell implements SourceCell {
         if (cellType != STCellType.B && cellType != STCellType.N) {
             throw new FaxelException("Illegal cell type %s. Could not get boolean value", getCellTypeName());
         }
-        return "1".equals(stringValue) || Boolean.valueOf(stringValue);
+        return CellUtils.getBooleanCellValue(cell);
     }
 
     @Override
@@ -61,7 +60,7 @@ class Docx4jCell implements SourceCell {
         if (stringValue == null) {
             return null;
         }
-        return DateUtil.getJavaDate(Double.valueOf(stringValue));
+        return CellUtils.getDateCellValue(cell);
     }
 
     private String getCellTypeName() {
