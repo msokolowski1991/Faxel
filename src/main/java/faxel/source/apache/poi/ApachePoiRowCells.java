@@ -10,13 +10,9 @@ import faxel.source.SourceCells;
 class ApachePoiRowCells implements SourceCells {
 
     private Row row;
-    private ApachePoiCell cellTemplate;
 
-    ApachePoiRowCells(Row row) {this.row = row;}
-
-    ApachePoiRowCells with(Row row) {
+    ApachePoiRowCells(Row row) {
         this.row = row;
-        return this;
     }
 
     @Override
@@ -25,10 +21,6 @@ class ApachePoiRowCells implements SourceCells {
         if (cell == null) {
             throw new FaxelException("Cell at %d index does not exists", columnIndex);
         }
-        if (cellTemplate == null) {
-            return cellTemplate = new ApachePoiCell(cell);
-        } else {
-            return cellTemplate.with(cell);
-        }
+        return new ApachePoiCell(cell);
     }
 }

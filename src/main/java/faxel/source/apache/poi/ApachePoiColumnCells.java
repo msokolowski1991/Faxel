@@ -11,16 +11,10 @@ class ApachePoiColumnCells implements SourceCells {
 
     private final Sheet sheet;
     private int columnIndex;
-    private ApachePoiCell cellTemplate;
 
     ApachePoiColumnCells(Sheet sheet, int columnIndex) {
         this.sheet = sheet;
         this.columnIndex = columnIndex;
-    }
-
-    ApachePoiColumnCells with(int columnIndex) {
-        this.columnIndex = columnIndex;
-        return this;
     }
 
     @Override
@@ -29,10 +23,6 @@ class ApachePoiColumnCells implements SourceCells {
         if (cell == null) {
             throw new FaxelException("Cell at index %d does not exists", columnIndex);
         }
-        if (cellTemplate == null) {
-            return cellTemplate = new ApachePoiCell(cell);
-        } else {
-            return cellTemplate.with(cell);
-        }
+        return new ApachePoiCell(cell);
     }
 }

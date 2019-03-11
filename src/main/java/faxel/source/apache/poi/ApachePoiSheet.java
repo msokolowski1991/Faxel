@@ -16,7 +16,9 @@ class ApachePoiSheet implements SourceSheet {
 
     private final Sheet sheet;
 
-    ApachePoiSheet(Sheet sheet) {this.sheet = sheet;}
+    ApachePoiSheet(Sheet sheet) {
+        this.sheet = sheet;
+    }
 
     @Override
     public Iterator<SourceCells> rowsIterator() {
@@ -31,9 +33,10 @@ class ApachePoiSheet implements SourceSheet {
     private class RowIterator implements Iterator<SourceCells> {
 
         private final Iterator<Row> it;
-        private ApachePoiRowCells current;
 
-        private RowIterator() {this.it = sheet.rowIterator();}
+        private RowIterator() {
+            this.it = sheet.rowIterator();
+        }
 
         @Override
         public boolean hasNext() {
@@ -43,11 +46,7 @@ class ApachePoiSheet implements SourceSheet {
         @Override
         public SourceCells next() {
             final Row next = it.next();
-            if (current == null) {
-                return current = new ApachePoiRowCells(next);
-            } else {
-                return current.with(next);
-            }
+            return new ApachePoiRowCells(next);
         }
     }
 
@@ -55,7 +54,6 @@ class ApachePoiSheet implements SourceSheet {
 
         private int currentCell = 0;
         private final int lastCell;
-        private ApachePoiColumnCells current;
 
         private ColumnIterator() {
             this.lastCell = stream(Spliterators.spliteratorUnknownSize(sheet.rowIterator(), Spliterator.ORDERED), false)
@@ -71,11 +69,7 @@ class ApachePoiSheet implements SourceSheet {
 
         @Override
         public SourceCells next() {
-            if (current == null) {
-                return current = new ApachePoiColumnCells(sheet, currentCell++);
-            } else {
-                return current.with(currentCell++);
-            }
+            return new ApachePoiColumnCells(sheet, currentCell++);
         }
     }
 }

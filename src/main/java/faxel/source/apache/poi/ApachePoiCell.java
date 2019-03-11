@@ -19,15 +19,6 @@ class ApachePoiCell implements SourceCell {
     private int cellTypeCode;
 
     ApachePoiCell(Cell cell) {
-        setupCell(cell);
-    }
-
-    ApachePoiCell with(Cell cell) {
-        setupCell(cell);
-        return this;
-    }
-
-    private void setupCell(Cell cell) {
         this.cell = cell;
         this.cellTypeCode = cell.getCellType();
     }
